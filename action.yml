@@ -1,0 +1,19 @@
+name: 'Deploy on Vercel'
+description: 'Easily deploy your project on Vercel'
+branding:
+#icon: bookmark #TODO
+#color: red
+inputs:
+  command:
+    description: 'Command to execute to start vercel deployment'
+    required: true
+  deploy-alias:
+    description: 'Enable alias feature in the vercel.json'
+    required: false
+    default: "true"
+outputs:
+  deployment-url:
+    description: "Url deployed"
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
