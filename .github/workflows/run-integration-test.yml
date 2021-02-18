@@ -19,14 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-        id: store-variables
         with:
           command: pwd
       - uses: ./
-        id: store-variables
         with:
           command: ls
       - uses: ./
-        id: store-variables
         with:
           command: echo "test"
