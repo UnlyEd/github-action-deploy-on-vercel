@@ -21,9 +21,13 @@ jobs:
       - uses: ./
         with:
           command: pwd
+        env:
+          VERCEL_TOKEN: "temporary nothing"
       - uses: ./
         with:
           command: ls
       - uses: ./
         with:
           command: echo "test"
+        env:
+          VERCEL_TOKEN: "temporary nothing"
