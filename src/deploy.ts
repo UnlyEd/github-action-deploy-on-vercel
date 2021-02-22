@@ -28,7 +28,7 @@ const exec_command = async (command: string): Promise<string> => {
         "VERCEL_TOKEN": "process.env.VERCEL_TOKEN"
     }
     await exec.exec('npx -v');
-    await exec.exec('yarn global add npx --prefix /usr/local/bin');
+    await exec.exec('yarn global add npx');
     await exec.exec('npx -v');
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
