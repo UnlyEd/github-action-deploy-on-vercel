@@ -27,11 +27,6 @@ const exec_command = async (command: string): Promise<string> => {
     options.env = {
         "VERCEL_TOKEN": "process.env.VERCEL_TOKEN"
     }
-    await exec.exec('npx -v');
-    await exec.exec('yarn global add npx');
-    await exec.exec('npx -v');
-    await exec.exec('whoami');
-    await exec.exec('git version');
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
     console.log("Stdout: ", stdout);
@@ -44,6 +39,8 @@ const deploy = async (command: string, deployAlias: boolean): Promise<void> => {
 
     const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
     const customDeploymentFile: any = command.match(/--local-config=([^,]+).json/g)?.shift()?.split("=").find(el => el.endsWith(".json"));
+
+    core.debug(`Custom deploy file: ${customDeploymentFile}`);
 
     if (deploymentUrl) {
         core.debug(`Found url deployment: ${deploymentUrl}. Exporting it...`);
