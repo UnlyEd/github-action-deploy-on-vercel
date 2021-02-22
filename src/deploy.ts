@@ -29,6 +29,8 @@ const exec_command = async (command: string): Promise<string> => {
     }
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
+    console.log("Stdout: ", stdout);
+    console.log("Stderr: ", stderr);
     return stdout
 }
 
