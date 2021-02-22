@@ -27,10 +27,10 @@ const exec_command = async (command: string): Promise<string> => {
     options.env = {
         "VERCEL_TOKEN": "process.env.VERCEL_TOKEN"
     }
-    await exec.exec(command, [], options);
-    console.log(stdout, stderr);
+    await exec.exec(command);
+    /*console.log(stdout, stderr);
     console.log("Stdout: ", stdout);
-    console.log("Stderr: ", stderr);
+    console.log("Stderr: ", stderr);*/
     return stdout
 }
 
