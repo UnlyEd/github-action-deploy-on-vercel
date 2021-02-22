@@ -32,7 +32,9 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "1.2.6",
-    "@actions/exec": "^1.0.4"
+    "@actions/exec": "^1.0.4",
+    "@actions/glob": "^0.1.1",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@babel/parser": "7.12.10",

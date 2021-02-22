@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          command: pwd
+          command: "echo 'yarn vercel:cleanup && yarn vercel:deploy --local-config=vercel.customer1.staging.json and found https://app.vercel.app'"
         env:
           VERCEL_TOKEN: "temporary nothing"
       - uses: ./

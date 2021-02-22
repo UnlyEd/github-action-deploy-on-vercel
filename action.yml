@@ -7,7 +7,7 @@ inputs:
   command:
     description: 'Command to execute to start vercel deployment'
     required: true
-  deploy-alias:
+  deploy_alias:
     description: 'Enable alias feature in the vercel.json'
     required: false
     default: "true"
