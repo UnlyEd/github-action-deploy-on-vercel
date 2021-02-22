@@ -30,6 +30,7 @@ const exec_command = async (command: string): Promise<string> => {
     await exec.exec('npx -v');
     await exec.exec('yarn global add npx');
     await exec.exec('npx -v');
+    await exec.exec('git version');
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
     console.log("Stdout: ", stdout);
