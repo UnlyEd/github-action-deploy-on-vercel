@@ -38,7 +38,7 @@ const deploy = async (command: string, deployAlias: boolean): Promise<void> => {
     const stdout: string = await exec_command(command)
 
     const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
-    const customDeploymentFile: any = command.match(/--local-config=([^,]+).json/g)?.shift()?.split("=").find(el => el.endsWith(".json"));
+    const customDeploymentFile: any = stdout.match(/--local-config=.[^$]+?.json/gs)?.shift()?.split("=").find(el => el.endsWith(".json"));
 
     core.debug(`Command: ${command}`)
     core.debug(`Custom deploy file: ${customDeploymentFile}`);
