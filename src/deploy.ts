@@ -24,9 +24,6 @@ const exec_command = async (command: string): Promise<string> => {
             stderr += data.toString();
         }
     };
-    options.env = {
-        "VERCEL_TOKEN": "process.env.VERCEL_TOKEN"
-    }
     await exec.exec("env");
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
