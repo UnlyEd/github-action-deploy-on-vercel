@@ -39,8 +39,8 @@ const deploy = async (command: string, deployAlias: boolean): Promise<void> => {
 
     if (deploymentUrl) {
         core.debug(`Found url deployment: ${deploymentUrl}. Exporting it...`);
-        core.exportVariable("DEPLOYMENT_URL", deploymentUrl);
-        core.setOutput("DEPLOYMENT_URL", deploymentUrl);
+        core.exportVariable("VERCEL_DEPLOYMENT_URL", deploymentUrl);
+        core.setOutput("VERCEL_DEPLOYMENT_URL", deploymentUrl);
         if (deployAlias) {
             core.debug(`Starting to link aliases`);
             const globber: Globber = await glob.create(customDeploymentFile)
