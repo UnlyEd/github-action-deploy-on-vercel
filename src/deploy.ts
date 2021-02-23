@@ -31,16 +31,16 @@ const exec_command = async (command: string): Promise<string> => {
 const deploy = async (command: string, deployAlias: boolean): Promise<void> => {
     const stdout: string = await exec_command(command)
 
-    const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
+    const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift()?.replace("https://", "");
     const customDeploymentFile: any = stdout.match(/--local-config=.[^$]+?.json/gs)?.shift()?.split("=").find(el => el.endsWith(".json"));
 
     core.debug(`Command: ${command}`)
     core.debug(`Custom deploy file: ${customDeploymentFile}`);
 
     if (deploymentUrl) {
-        core.debug(`Found url deployment: ${deploymentUrl}. Exporting it...`);
-        core.exportVariable("VERCEL_DEPLOYMENT_URL", deploymentUrl);
-        core.setOutput("VERCEL_DEPLOYMENT_URL", deploymentUrl);
+        core.debug(`Found url deployment: VERCEL_DEPLOYMENT_DOMAIN=${deploymentUrl}. Exporting it...`);
+        core.exportVariable("VERCEL_DEPLOYMENT_DOMAIN", deploymentUrl);
+        core.setOutput("VERCEL_DEPLOYMENT_DOMAIN", deploymentUrl);
         if (deployAlias) {
             core.debug(`Starting to link aliases`);
             const globber: Globber = await glob.create(customDeploymentFile)
