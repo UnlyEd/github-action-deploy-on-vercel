@@ -24,11 +24,7 @@ const exec_command = async (command: string): Promise<string> => {
             stderr += data.toString();
         }
     };
-    await exec.exec("env");
     await exec.exec(command, [], options);
-    console.log(stdout, stderr);
-    console.log("Stdout: ", stdout);
-    console.log("Stderr: ", stderr);
     return stdout
 }
 
