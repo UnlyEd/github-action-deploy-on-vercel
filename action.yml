@@ -11,6 +11,10 @@ inputs:
     description: 'Enable alias feature in the vercel.json'
     required: false
     default: "true"
+  failIfAliasNotLinked:
+    description: 'If true, will throw an error (and crash CI) when there is an error about aliases link'
+    required: false
+    default: "false"
 outputs:
   deployment-url:
     description: "Url deployed"

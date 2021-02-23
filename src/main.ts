@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import deploy from "./deploy";
+import deploy from "./vercel";
 
 /**
  * Runs configuration checks to make sure everything is properly configured.
@@ -27,9 +27,10 @@ const run = async (): Promise<void> => {
   try {
     const command: string = core.getInput('command');
     const deploy_alias: boolean = core.getInput('deploy_alias') == 'true';
+    const failIfAliasNotLinked: boolean = core.getInput('failIfAliasNotLinked') == 'true';
     core.debug(`Received command: ${command}`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true https://github.com/actions/toolkit/blob/master/docs/action-debugging.md#how-to-access-step-debug-logs
     core.debug(`Should we deploy aliases ? "${deploy_alias}"`);
-    await deploy(command, deploy_alias);
+    await deploy(command, deploy_alias, failIfAliasNotLinked);
   } catch (error) {
     core.setFailed(error.message);
   }

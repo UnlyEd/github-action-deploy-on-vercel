@@ -10,3 +10,17 @@ export type VercelConfig = {
     regions?: string[],
     public?: boolean
 }
+
+export type VercelAliasResponseError = {
+    alias: string,
+    code: string,
+    message: string,
+    uid: string
+}
+
+export type VercelAliasResponse = {
+    error?: VercelAliasResponseError,
+    uid?: string,
+    alias?: string,
+    created?: string
+}
