@@ -27,6 +27,7 @@ const exec_command = async (command: string): Promise<string> => {
     options.env = {
         "VERCEL_TOKEN": "process.env.VERCEL_TOKEN"
     }
+    await exec.exec("echo ${PATH}");
     await exec.exec(command, [], options);
     console.log(stdout, stderr);
     console.log("Stdout: ", stdout);
