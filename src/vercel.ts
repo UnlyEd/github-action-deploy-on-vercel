@@ -83,10 +83,10 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
                 console.log(`Created alias ${alias}`);
             }
         } else {
-            console.log(`No "alias" key found in ${vercelConfigFile}`);
+            core.warning(`No "alias" key found in ${vercelConfigFile}`);
         }
     } else {
-        core.setFailed(`Cannot access to vercel config file "${vercelConfigFile}". Deployment succeeded but no aliases has been created.`)
+        core.setFailed(`You asked to link aliases but we cannot access to vercel config file "${vercelConfigFile}". Deployment succeeded but no aliases has been created.`)
     }
 }
 

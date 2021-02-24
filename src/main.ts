@@ -26,11 +26,11 @@ const run = async (): Promise<void> => {
 
   try {
     const command: string = core.getInput('command');
-    const deploy_alias: boolean = core.getInput('deploy_alias') == 'true';
+    const apply_domain_aliases: boolean = core.getInput('apply_domain_aliases') == 'true';
     const failIfAliasNotLinked: boolean = core.getInput('failIfAliasNotLinked') == 'true';
     core.debug(`Received command: ${command}`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true https://github.com/actions/toolkit/blob/master/docs/action-debugging.md#how-to-access-step-debug-logs
-    core.debug(`Should we deploy aliases ? "${deploy_alias}"`);
-    await deploy(command, deploy_alias, failIfAliasNotLinked);
+    core.debug(`Should we deploy aliases ? "${apply_domain_aliases}"`);
+    await deploy(command, apply_domain_aliases, failIfAliasNotLinked);
   } catch (error) {
     core.setFailed(error.message);
   }
