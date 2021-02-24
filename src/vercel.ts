@@ -47,39 +47,41 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
         core.debug(`Found custom config file: ${vercelConfigFile}`);
         core.debug(`Found real path: ${vercelConfigFile}`);
         const vercelConfig: VercelConfig = JSON.parse(fs.readFileSync(vercelConfigFile, 'utf8'));
-        const {
-            id,
-            ownerId
-        } = (await fetch(`https://api.vercel.com/v11/now/deployments/get?url=${deploymentUrl.replace("https://", "")}`, {
-            headers: {
-                Authorization: `Bearer ${process.env.VERCEL_TOKEN}`
-            },
-            method: 'GET'
-        }).then(data => data.json()));
-        let aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
-        for (const alias of vercelConfig.alias) {
-            console.log(`Creating alias ${alias}`);
-            aliasCreationPromises.push(fetch(`https://api.vercel.com/v2/now/deployments/${id}/aliases?teamId=${ownerId}`, {
+        if (vercelConfig.alias) {
+            const {
+                id,
+                ownerId
+            } = (await fetch(`https://api.vercel.com/v11/now/deployments/get?url=${deploymentUrl.replace("https://", "")}`, {
                 headers: {
-                    Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
-                    "Content-Type": "application/json"
+                    Authorization: `Bearer ${process.env.VERCEL_TOKEN}`
                 },
-                body: JSON.stringify({
-                    alias: alias
-                }),
-                method: 'POST'
+                method: 'GET'
             }).then(data => data.json()));
-        }
-        core.debug(`Resolving alias promises`);
-        const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
-        console.log(`Alias creation response: ${aliasesResponse}`);
-        if (failIfAliasNotLinked && aliasesResponse) {
-            const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
-            core.setFailed(`Got following errors: ${JSON.stringify(failedAliases)}`)
-            return;
-        }
-        for (const alias of aliasesResponse.filter(response => !response.error)) {
-            console.log(`Created alias ${alias}`);
+            let aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
+            for (const alias of vercelConfig.alias) {
+                console.log(`Creating alias ${alias}`);
+                aliasCreationPromises.push(fetch(`https://api.vercel.com/v2/now/deployments/${id}/aliases?teamId=${ownerId}`, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        alias: alias
+                    }),
+                    method: 'POST'
+                }).then(data => data.json()));
+            }
+            core.debug(`Resolving alias promises`);
+            const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
+            console.log(`Alias creation response: ${aliasesResponse}`);
+            if (failIfAliasNotLinked && aliasesResponse) {
+                const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
+                core.setFailed(`Got following errors: ${JSON.stringify(failedAliases)}`)
+                return;
+            }
+            for (const alias of aliasesResponse.filter(response => !response.error)) {
+                console.log(`Created alias ${alias}`);
+            }
         }
     } else {
         core.setFailed(`Cannot access to vercel config file "${vercelConfigFile}". Deployment succeeded but no aliases has been created.`)
