@@ -16,8 +16,12 @@ inputs:
     required: false
     default: "false"
 outputs:
-  deployment-url:
-    description: "Url deployed"
+  VERCEL_DEPLOYMENT_URL:
+    description: "Url found in the output"
+  VERCEL_DEPLOYMENT_DOMAIN:
+    description: "Url without protocol declaration 'https://'"
+  VERCEL_ALIASES_ERROR:
+    description: "Errors if something went wrong with the aliases"
 runs:
   using: 'node12'
   main: 'lib/main.js'

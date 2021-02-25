@@ -20,14 +20,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          command: "echo 'yarn vercel:cleanup && yarn vercel:deploy --local-config=vercel.customer1.staging.json and found https://app.vercel.app'"
+          command: "echo \"Deployed url: https://my-app.vercel.app\""
+          apply_domain_aliases: false
         env:
-          VERCEL_TOKEN: "temporary nothing"
-      - uses: ./
-        with:
-          command: ls
-      - uses: ./
-        with:
-          command: echo "test"
-        env:
-          VERCEL_TOKEN: "temporary nothing"
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""

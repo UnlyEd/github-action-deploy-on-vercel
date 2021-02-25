@@ -11,6 +11,10 @@ export type VercelConfig = {
     public?: boolean
 }
 
+/**
+ * Official interface by Vercel can be find here: https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment
+ */
+
 export type VercelAliasResponseError = {
     alias: string,
     code: string,

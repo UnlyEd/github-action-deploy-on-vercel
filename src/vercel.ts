@@ -83,6 +83,8 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
                 const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
                 const message: string = `Got following errors: ${JSON.stringify(failedAliases)}`
                 failIfAliasNotLinked ? core.setFailed(message) : core.warning(message)
+                console.log(`Exporting this error...`)
+                core.setOutput('VERCEL_ALIASES_ERROR', failedAliases);
             }
             for (const alias of aliasesResponse.filter(response => !response.error)) {
                 console.log(`Created alias ${alias}`);
@@ -96,6 +98,10 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
 }
 
 const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
+    /**
+     * Execute the command provided and store it into a variable
+     * exec_command also display the output
+     */
     const stdout: string = await exec_command(command)
 
     /**
