@@ -79,7 +79,7 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
             core.debug(`Resolving alias promises`);
             const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
             console.log(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
-            if (aliasesResponse.filter(response => response.error)) {
+            if (aliasesResponse.filter(response => response.error).length > 0) {
                 const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
                 const message: string = `Got following errors: ${JSON.stringify(failedAliases)}`
                 failIfAliasNotLinked ? core.setFailed(message) : core.warning(message)
