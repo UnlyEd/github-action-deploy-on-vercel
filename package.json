@@ -17,7 +17,7 @@
     "test:once": "NODE_ENV=test jest",
     "test:coverage": "NODE_ENV=test jest --coverage",
     "test:config": "NODE_ENV=test jest --showConfig",
-    "test:integration": "INPUT_COMMAND=\"echo $(yarn mocks:display)\" node -r dotenv/config lib/main.js",
+    "test:integration": "node -r dotenv/config lib/main.js",
     "mocks:display": "export $(cat .env | xargs);envsubst < mocks/deployment.txt",
     "act:actions:list": "act --version && act --list"
   },
