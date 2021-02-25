@@ -5,7 +5,7 @@
 #
 # See https://github.com/actions/checkout https://github.com/actions/checkout/releases/tag/v2
 
-name: 'GitHub Action integration test'
+name: 'GitHub Action deploy example'
 on:
   pull_request:
   push:
