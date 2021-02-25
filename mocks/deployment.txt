@@ -1,0 +1,88 @@
+> [debug] [2021-02-24T12:09:54.756Z] Found config in provided --local-config path /home/runner/work/next-right-now/next-right-now/vercel.json
+Vercel CLI 21.2.3
+> [debug] [2021-02-24T12:09:54.769Z] user supplied a possible target for deployment
+> [debug] [2021-02-24T12:09:54.788Z] GET https://api.vercel.com/www/user
+> [debug] [2021-02-24T12:09:55.038Z] GET https://api.vercel.com/www/user : 250.112ms
+> [debug] [2021-02-24T12:09:55.043Z] GET https://api.vercel.com/v1/teams?
+> [debug] [2021-02-24T12:09:55.361Z] GET https://api.vercel.com/v1/teams? : 317.289ms
+> [debug] [2021-02-24T12:09:55.420Z] GET https://api.vercel.com/teams/team_qnVfSEVc2WwmOE1OYhZr4VST?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+> [debug] [2021-02-24T12:09:55.659Z] GET https://api.vercel.com/teams/team_qnVfSEVc2WwmOE1OYhZr4VST?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST : 237.81ms
+> [debug] [2021-02-24T12:09:55.664Z] Spinner stopped (Loading scopes…)
+> [debug] [2021-02-24T12:09:55.664Z] Spinner invoked (Loading scopes…) with a 1000ms delay
+> [debug] [2021-02-24T12:09:55.665Z] GET https://api.vercel.com/v1/teams?
+> [debug] [2021-02-24T12:09:55.899Z] GET https://api.vercel.com/v1/teams? : 234.18ms
+> [debug] [2021-02-24T12:09:55.906Z] Spinner stopped (Searching for existing projects…)
+> [debug] [2021-02-24T12:09:55.906Z] Spinner invoked (Searching for existing projects…) with a 1000ms delay
+> [debug] [2021-02-24T12:09:55.908Z] GET https://api.vercel.com/projects/nrn-v2-mst-aptd-at-lcz-sty-c1?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+> [debug] [2021-02-24T12:09:56.237Z] GET https://api.vercel.com/projects/nrn-v2-mst-aptd-at-lcz-sty-c1?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST : 328.696ms
+Linked to unly-oss/nrn-v2-mst-aptd-at-lcz-sty-c1 (created .vercel)
+The name property in vercel.json is deprecated (https://vercel.link/name-prop)
+> [debug] [2021-02-24T12:09:56.244Z] Spinner stopped (Deploying unly-oss/nrn-v2-mst-aptd-at-lcz-sty-c1)
+> [debug] [2021-02-24T12:09:56.244Z] Spinner invoked (Deploying unly-oss/nrn-v2-mst-aptd-at-lcz-sty-c1) with a 0ms delay
+[now-client-debug] 2021-02-24T12:09:56.245Z Creating deployment...
+[now-client-debug] 2021-02-24T12:09:56.245Z Provided 'path' is a directory. Reading subpaths...
+[now-client-debug] 2021-02-24T12:09:56.246Z Read 43 subpaths
+[now-client-debug] 2021-02-24T12:09:56.253Z Found 25 rules in .vercelignore
+[now-client-debug] 2021-02-24T12:09:56.253Z Building file tree...
+[now-client-debug] 2021-02-24T12:09:56.309Z Found 448 files in the specified directory
+[now-client-debug] 2021-02-24T12:09:56.346Z Yielding a 'hashes-calculated' event with 447 hashes
+[now-client-debug] 2021-02-24T12:09:56.347Z Using provided API URL: https://api.vercel.com
+[now-client-debug] 2021-02-24T12:09:56.347Z Using provided user agent: vercel 21.2.3 node-v14.15.5 linux (x64)
+[now-client-debug] 2021-02-24T12:09:56.347Z Setting platform version to harcoded value 2
+[now-client-debug] 2021-02-24T12:09:56.347Z Creating the deployment and starting upload...
+[now-client-debug] 2021-02-24T12:09:56.348Z Determining necessary files for upload...
+[now-client-debug] 2021-02-24T12:09:56.348Z Creating deployment
+[now-client-debug] 2021-02-24T12:09:56.353Z Sending deployment creation API request
+[now-client-debug] 2021-02-24T12:09:57.316Z Deployment response: {"error":{"code":"missing_files","message":"Missing files","missing":["10cf212bcc0b16787d58258f8e5d1e2a9627afc7","7d36448f860e47e36ef7350dac6496b3f3577056","d9d09922e1278f2c54964db685fd6c4162b147a5"]}}
+[now-client-debug] 2021-02-24T12:09:57.316Z Error: Deployment request status is 400
+[now-client-debug] 2021-02-24T12:09:57.316Z 3 files are required to upload
+[now-client-debug] 2021-02-24T12:09:57.316Z Yielding a 'file-count' event
+> [debug] [2021-02-24T12:09:57.316Z] Total files 447, 3 changed
+[now-client-debug] 2021-02-24T12:09:57.317Z Building an upload list...
+[now-client-debug] 2021-02-24T12:09:57.317Z Starting upload
+[now-client-debug] 2021-02-24T12:09:57.318Z POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:57.319Z POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:57.320Z POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:58.042Z DONE in 724ms: POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:58.042Z File 10cf212bcc0b16787d58258f8e5d1e2a9627afc7 (/home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-staging.yml) uploaded
+[now-client-debug] 2021-02-24T12:09:58.042Z Yielding a 'file-uploaded' event
+> [debug] [2021-02-24T12:09:58.043Z] Uploaded: /home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-staging.yml (25.61KB)
+[now-client-debug] 2021-02-24T12:09:58.047Z DONE in 727ms: POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:58.047Z File d9d09922e1278f2c54964db685fd6c4162b147a5 (/home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-production.yml) uploaded
+[now-client-debug] 2021-02-24T12:09:58.047Z Yielding a 'file-uploaded' event
+> [debug] [2021-02-24T12:09:58.047Z] Uploaded: /home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-production.yml (21.8KB)
+[now-client-debug] 2021-02-24T12:09:58.055Z DONE in 736ms: POST https://api.vercel.com/v2/now/files?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+[now-client-debug] 2021-02-24T12:09:58.055Z File 7d36448f860e47e36ef7350dac6496b3f3577056 (/home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-storybook.yml) uploaded
+[now-client-debug] 2021-02-24T12:09:58.055Z Yielding a 'file-uploaded' event
+> [debug] [2021-02-24T12:09:58.055Z] Uploaded: /home/runner/work/next-right-now/next-right-now/.github/workflows/deploy-vercel-storybook.yml (15.39KB)
+[now-client-debug] 2021-02-24T12:09:58.055Z All files uploaded
+[now-client-debug] 2021-02-24T12:09:58.055Z Yielding a 'all-files-uploaded' event
+[now-client-debug] 2021-02-24T12:09:58.055Z Starting deployment creation
+[now-client-debug] 2021-02-24T12:09:58.055Z Creating deployment
+[now-client-debug] 2021-02-24T12:09:58.058Z Sending deployment creation API request
+[now-client-debug] 2021-02-24T12:10:00.883Z Deployment response: {"alias":["nrn-v2-mst-aptd-at-lcz-sty-c1-vercel-oss-bot.vercel.app"],"aliasAssigned":false,"bootedAt":1614168598621,"buildingAt":1614168598621,"createdAt":1614168598621,"creator":{"uid":"xdzqiYVb3oFkd6suD0QeNllg","username":"vercel-oss-bot"},"id":"dpl_8uUVXWFzKdE55wtnd55XF7XJo3wu","lambdas":[{"id":"bld_9ex0qz5ng","createdAt":1614168600703,"entrypoint":null,"readyState":"INITIALIZING","readyStateAt":1614168600704,"output":[]}],"name":"nrn-v2-mst-aptd-at-lcz-sty-c1","meta":{},"public":false,"readyState":"QUEUED","regions":["arn1","bom1","bru1","cdg1","cle1","dub1","gru1","hkg1","hnd1","icn1","iad1","lhr1","pdx1","sfo1","sin1","syd1"],"source":"cli","status":"QUEUED","team":{"id":"team_qnVfSEVc2WwmOE1OYhZr4VST","name":"Unly OSS","slug":"unly-oss"},"type":"LAMBDAS","url":"nrn-v2-mst-aptd-at-lcz-sty-c1-7u1iwwx5h-unly-oss.vercel.app","version":2,"build":{"env":["NEXT_PUBLIC_APP_STAGE","NEXT_PUBLIC_NRN_PRESET","NEXT_PUBLIC_CUSTOMER_REF","NEXT_PUBLIC_LOCIZE_PROJECT_ID","NEXT_PUBLIC_AMPLITUDE_API_KEY","AIRTABLE_API_KEY","AIRTABLE_BASE_ID","LOCIZE_API_KEY","SENTRY_DSN","GITHUB_DISPATCH_TOKEN","VERCEL_DEPLOYMENT_COMPLETED_WEBHOOK","GIT_COMMIT_TAGS","GIT_COMMIT_REF","GIT_COMMIT_SHA"]},"builds":[],"createdIn":"sfo1","env":[],"functions":null,"ownerId":"team_qnVfSEVc2WwmOE1OYhZr4VST","plan":"pro","projectId":"Qmdqfj3N1R2kTSZftoxw3pJ5tDfZwE4pYAxnG8cT43k9ME","routes":null,"target":null}
+[now-client-debug] 2021-02-24T12:10:00.886Z Deployment created with a notice:  To deploy to production, run 'vercel --prod'
+[now-client-debug] 2021-02-24T12:10:00.886Z Yielding a 'notice' event
+[now-client-debug] 2021-02-24T12:10:00.886Z Deployment created
+[now-client-debug] 2021-02-24T12:10:00.887Z Yielding a 'created' event
+Inspect: https://vercel.com/unly-oss/nrn-v2-mst-aptd-at-lcz-sty-c1-7u1iwwx5h-unly/oss [5s]
+${VERCEL_DEPLOYMENT_URL}> [debug] [2021-02-24T12:10:00.933Z] Spinner stopped (Queued)
+> [debug] [2021-02-24T12:10:00.933Z] Spinner invoked (Queued) with a 0ms delay
+[now-client-debug] 2021-02-24T12:10:00.933Z Waiting for deployment to be ready...
+[now-client-debug] 2021-02-24T12:10:00.933Z Waiting for builds and the deployment to complete...
+[now-client-debug] 2021-02-24T12:15:56.518Z Deployment state changed to BUILDING
+[now-client-debug] 2021-02-24T12:15:56.518Z Yielding a 'building' event
+> [debug] [2021-02-24T12:15:56.518Z] Spinner stopped (Building)
+> [debug] [2021-02-24T12:15:56.518Z] Spinner invoked (Building) with a 0ms delay
+[now-client-debug] 2021-02-24T12:23:48.307Z Deployment state changed to READY
+[now-client-debug] 2021-02-24T12:23:48.307Z Yielding a 'ready' event
+> [debug] [2021-02-24T12:23:48.307Z] Spinner stopped (Completing)
+> [debug] [2021-02-24T12:23:48.307Z] Spinner invoked (Completing) with a 0ms delay
+[now-client-debug] 2021-02-24T12:23:50.022Z Deployment alias assigned
+[now-client-debug] 2021-02-24T12:23:50.022Z Deployment is ready
+[now-client-debug] 2021-02-24T12:23:50.022Z Yielding a 'alias-assigned' event
+> [debug] [2021-02-24T12:23:50.025Z] GET https://api.vercel.com/v10/now/deployments/dpl_8uUVXWFzKdE55wtnd55XF7XJo3wu?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST
+> [debug] [2021-02-24T12:23:50.346Z] GET https://api.vercel.com/v10/now/deployments/dpl_8uUVXWFzKdE55wtnd55XF7XJo3wu?teamId=team_qnVfSEVc2WwmOE1OYhZr4VST : 320.867ms
+> [debug] [2021-02-24T12:23:50.478Z] Error copying to clipboard: Error: Couldn't find the 'xsel' binary and fallback didn't work. On Debian/Ubuntu you can install xsel with: sudo apt install xsel
+Preview: ${VERCEL_DEPLOYMENT_URL} [14m]
+To deploy to production, run 'vercel --prod'

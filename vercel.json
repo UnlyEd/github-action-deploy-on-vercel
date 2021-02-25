@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "",
+  "scope": "",
+  "env": {},
+  "build": {
+    "env": {}
+  },
+  "alias": [
+    "special-app.vercel.app"
+  ],
+  "regions": [
+    "all"
+  ],
+  "public": false
+}

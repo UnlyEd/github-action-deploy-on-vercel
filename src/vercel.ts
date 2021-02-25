@@ -11,6 +11,24 @@ import {VERCEL_CONFIG_FILE} from "./config";
 const exec = require('@actions/exec');
 const glob = require('@actions/glob');
 
+const generate_alias_promises = (deploymentId: string, teamId: string, aliases: string[]): Promise<VercelAliasResponse>[] => {
+    let aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
+    for (const alias of aliases) {
+        console.log(`Creating alias ${alias}`);
+        aliasCreationPromises.push(fetch(`https://api.vercel.com/v2/now/deployments/${deploymentId}/aliases?teamId=${teamId}`, {
+            headers: {
+                Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                alias: alias
+            }),
+            method: 'POST'
+        }).then(data => data.json()));
+    }
+    return aliasCreationPromises;
+}
+
 const exec_command = async (command: string): Promise<string> => {
     /**
      * When we execute a program, it writes on two outputs : standard and error.
@@ -42,7 +60,7 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
      * It helps us to find the absolute path for a file. Indeed, because we don't know where the action will be run and we need to find this file, wherever it is.
      */
     const globber: Globber = await glob.create(customDeploymentFile)
-    const vercelConfigFile: string = (await globber.glob())[0] || VERCEL_CONFIG_FILE;
+    const vercelConfigFile: string = (await globber.glob())[0];
     if (vercelConfigFile && fs.existsSync(vercelConfigFile)) {
         core.debug(`Found custom config file: ${vercelConfigFile}`);
         core.debug(`Found real path: ${vercelConfigFile}`);
@@ -57,27 +75,14 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
                 },
                 method: 'GET'
             }).then(data => data.json()));
-            let aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
-            for (const alias of vercelConfig.alias) {
-                console.log(`Creating alias ${alias}`);
-                aliasCreationPromises.push(fetch(`https://api.vercel.com/v2/now/deployments/${id}/aliases?teamId=${ownerId}`, {
-                    headers: {
-                        Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        alias: alias
-                    }),
-                    method: 'POST'
-                }).then(data => data.json()));
-            }
+            const aliasCreationPromises: Promise<VercelAliasResponse>[] = generate_alias_promises(id, ownerId, vercelConfig.alias);
             core.debug(`Resolving alias promises`);
             const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
-            console.log(`Alias creation response: ${aliasesResponse}`);
-            if (failIfAliasNotLinked && aliasesResponse) {
+            console.log(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
+            if (aliasesResponse.filter(response => response.error)) {
                 const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
-                core.setFailed(`Got following errors: ${JSON.stringify(failedAliases)}`)
-                return;
+                const message: string = `Got following errors: ${JSON.stringify(failedAliases)}`
+                failIfAliasNotLinked ? core.setFailed(message) : core.warning(message)
             }
             for (const alias of aliasesResponse.filter(response => !response.error)) {
                 console.log(`Created alias ${alias}`);
@@ -117,7 +122,7 @@ const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinke
      * split isolates the json file
      * find automatically finds the matching json file
      */
-    const customDeploymentFile: string | undefined = stdout.match(/--local-config=.[^$]+?.json/gs)?.shift()?.split("=").find(el => el.endsWith(".json"));
+    const customDeploymentFile: string = stdout.match(/--local-config=.[^$]+?.json/gs)?.shift()?.split("=").find(el => el.endsWith(".json"))  || VERCEL_CONFIG_FILE;
 
     core.debug(`Command: ${command}`)
     core.debug(`Custom deploy file: ${customDeploymentFile}`);
