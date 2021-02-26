@@ -18,6 +18,6 @@ jobs:
           failIfAliasNotLinked: false
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_DEPLOYMENT_URL: "https://nrn-v2-mst-aptd-at-lcz-sty-c1.vercel.app"
+          VERCEL_DEPLOYMENT_URL: "https://github-action-deploy-on-vercel-example.vercel.app/"
 
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
