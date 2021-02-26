@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: "github-action-deploy-on-vercel" # act doesn't work without a specific path. @see https://github.com/nektos/act/issues/228
       - uses: ./
         with:
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
