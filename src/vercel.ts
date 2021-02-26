@@ -100,7 +100,7 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
 const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
     /**
      * Execute the command provided and store it into a variable
-     * exec_command also display the output
+     * exec_command also displays the output
      */
     const stdout: string = await exec_command(command)
 
