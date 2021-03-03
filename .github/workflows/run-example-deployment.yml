@@ -16,7 +16,7 @@ jobs:
       - uses: ./
         with:
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
-          apply_domain_aliases: true
+          applyDomainAliases: true
           failIfAliasNotLinked: false
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
