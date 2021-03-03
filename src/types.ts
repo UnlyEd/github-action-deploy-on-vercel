@@ -12,9 +12,10 @@ export type VercelConfig = {
 }
 
 /**
- * Official interface by Vercel. @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment
+ * Vercel Alias API error in the response.
+ *
+ * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
  */
-
 export type VercelAliasResponseError = {
     alias: string,
     code: string,
@@ -22,6 +23,11 @@ export type VercelAliasResponseError = {
     uid: string
 }
 
+/**
+ * Vercel Alias API response.
+ *
+ * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
+ */
 export type VercelAliasResponse = {
     error?: VercelAliasResponseError,
     uid?: string,
