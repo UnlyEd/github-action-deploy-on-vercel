@@ -8,7 +8,7 @@
     "start": "yarn build",
     "build": "tsc --watch",
     "build:once": "tsc",
-    "deploy:example": "vercel examples/static-deployment  --confirm --debug",
+    "deploy:example": "vercel examples/static-deployment --confirm --debug",
     "format": "prettier --write **/*.ts",
     "format:preview": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
