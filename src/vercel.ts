@@ -79,10 +79,12 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
             core.debug(`Resolving alias promises`);
             const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
             console.log(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
-            if (aliasesResponse.filter(response => response.error)) {
+            if (aliasesResponse.filter(response => response.error).length > 0) {
                 const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
                 const message: string = `Got following errors: ${JSON.stringify(failedAliases)}`
                 failIfAliasNotLinked ? core.setFailed(message) : core.warning(message)
+                console.log(`Exporting this error...`)
+                core.setOutput('VERCEL_ALIASES_ERROR', failedAliases);
             }
             for (const alias of aliasesResponse.filter(response => !response.error)) {
                 console.log(`Created alias ${alias}`);
@@ -96,6 +98,11 @@ const create_aliases = async (deploymentUrl: string, customDeploymentFile: strin
 }
 
 const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
+    /**
+     * Executes the command provided and stores it into a variable, so we can parse the output and extract metadata from it.
+     *
+     * Running "exec_command" displays the output in the console.
+     */
     const stdout: string = await exec_command(command)
 
     /**

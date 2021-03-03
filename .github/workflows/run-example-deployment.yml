@@ -1,4 +1,4 @@
-name: 'GitHub Action integration test'
+name: 'GitHub Action deploy example'
 on:
   pull_request:
   push:
@@ -6,17 +6,18 @@ on:
       - '*'
 
 jobs:
-  run-integration-test:
+  run-example-deployment:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+#        with:
+#          path: "github-action-deploy-on-vercel" # Act doesn't work if not specifying the path. See https://github.com/nektos/act/issues/228
       - uses: ./
         with:
-          command: "yarn test:integration"
+          command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
           applyDomainAliases: true
           failIfAliasNotLinked: false
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_DEPLOYMENT_URL: "https://github-action-deploy-on-vercel-example.vercel.app/"
 
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""

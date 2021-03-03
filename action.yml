@@ -1,14 +1,14 @@
 name: 'Deploy on Vercel'
 description: 'Easily deploy your project on Vercel'
 branding:
-#icon: bookmark #TODO
-#color: red
+  icon: box
+  color: gray-dark
 inputs:
   command:
-    description: 'Command to execute to start vercel deployment'
+    description: 'Command starting the vercel deployment'
     required: true
-  apply_domain_aliases:
-    description: 'Enable alias feature in the vercel.json'
+  applyDomainAliases:
+    description: 'If true, will create Vercel aliases using the aliases specified in the vercel config file'
     required: false
     default: "true"
   failIfAliasNotLinked:
@@ -16,8 +16,12 @@ inputs:
     required: false
     default: "false"
 outputs:
-  deployment-url:
-    description: "Url deployed"
+  VERCEL_DEPLOYMENT_URL:
+    description: "Full Vercel deployment url (parsed from the deployment logs), e.g: https://xxx.vercel.app"
+  VERCEL_DEPLOYMENT_DOMAIN:
+    description: "Url without the protocol declaration, e.g: xxx.vercel.app"
+  VERCEL_ALIASES_ERROR:
+    description: "(optional) Vercel errors during domain aliasing"
 runs:
   using: 'node12'
   main: 'lib/main.js'
