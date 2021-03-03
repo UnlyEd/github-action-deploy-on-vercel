@@ -1,10 +1,10 @@
 <a href="https://unly.org"><img src="https://storage.googleapis.com/unly/images/ICON_UNLY.png" align="right" height="20" alt="Unly logo" title="Unly logo" /></a>
-[![Maintainability](https://api.codeclimate.com/v1/badges/9e073b5db2eec4c4e5c8/maintainability)](https://codeclimate.com/github/UnlyEd/github-action-store-variable/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/9e073b5db2eec4c4e5c8/test_coverage)](https://codeclimate.com/github/UnlyEd/github-action-store-variable/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/97a6022a22be785dd2ea/maintainability)](https://codeclimate.com/github/UnlyEd/github-action-deploy-on-vercel/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/97a6022a22be785dd2ea/test_coverage)](https://codeclimate.com/github/UnlyEd/github-action-deploy-on-vercel/test_coverage)
 
-![GitHub Action integration test](https://github.com/UnlyEd/github-action-store-variable/workflows/GitHub%20Action%20integration%20test/badge.svg)
-![GitHub Action build test](https://github.com/UnlyEd/github-action-store-variable/workflows/GitHub%20Action%20build%20test/badge.svg)
-![Update Code Climate test coverage](https://github.com/UnlyEd/github-action-store-variable/workflows/Update%20Code%20Climate%20test%20coverage/badge.svg)
+![GitHub Action integration test](https://github.com/UnlyEd/github-action-deploy-on-vercel/workflows/GitHub%20Action%20integration%20test/badge.svg)
+![GitHub Action build test](https://github.com/UnlyEd/github-action-deploy-on-vercel/workflows/GitHub%20Action%20build%20test/badge.svg)
+![Update Code Climate test coverage](https://github.com/UnlyEd/github-action-deploy-on-vercel/workflows/Update%20Code%20Climate%20test%20coverage/badge.svg)
 
 # GitHub Action - Store variables between your jobs
 
