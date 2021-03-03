@@ -6,7 +6,7 @@
 ![GitHub Action build test](https://github.com/UnlyEd/github-action-deploy-on-vercel/workflows/GitHub%20Action%20build%20test/badge.svg)
 ![Update Code Climate test coverage](https://github.com/UnlyEd/github-action-deploy-on-vercel/workflows/Update%20Code%20Climate%20test%20coverage/badge.svg)
 
-# GitHub Action - Store variables between your jobs
+# GitHub Action - Deploy on Vercel (using a custom command)
 
 ## Code snippet example (minimal example)
 
