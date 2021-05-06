@@ -36,26 +36,28 @@ const generateAliasPromises = (deploymentId: string, teamId: string, aliases: st
 };
 
 const execCommand = async (command: string): Promise<string> => {
+  const options: ExecOptions = {};
+
   /**
    * When we execute a program, it writes on two outputs : standard and error.
-   * Initalizing empty variables to receive these outputs
    */
   let stdout = '';
   let stderr = '';
 
-  const options: ExecOptions = {};
   /**
-   * Defining actions for both outputs
+   * Listening to both events to store logs and reuse them later
    */
   options.listeners = {
     stdout: (data: Buffer) => {
       stdout += data.toString();
     },
     stderr: (data: Buffer) => {
-      stderr += data.toString();
+      stderr += data.toString(); // TODO Nothing is done with stderr afterwards, is that normal?
     },
   };
+
   await exec.exec(command, [], options);
+
   return stdout;
 };
 
@@ -81,10 +83,11 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
           Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
         },
         method: 'GET',
-      }).then((data) => data.json());
+      }).then((data) => data.json()); // TODO It's weird to use both await + .then / How are exceptions handled here?
 
       const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
       core.debug(`Resolving alias promises`);
+
       const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
       console.log(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
 
