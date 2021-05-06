@@ -44,7 +44,12 @@ The action will return the url of the Vercel deployment _(and store it as enviro
 
 ## Why/when should you use it?
 
-You want to run a custom command that (amongst other things) performs a Vercel deployment.
+You want to run a custom command that (amongst other things) performs a Vercel deployment and returns the URL of the Vercel deployment.
+
+The URL of the deployment is often necessary to run follow-up actions, such as:
+- Running End-to-End tests on the deployed site
+- Running LightHouse tests on the deployed site
+- Etc.
 
 ### Action's API
 
