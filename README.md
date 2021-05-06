@@ -32,6 +32,8 @@ jobs:
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
 ```
 
+> [Source](https://github.com/UnlyEd/github-action-deploy-on-vercel/blob/review/.github/workflows/run-example-deployment.yml)
+
 ## What does this GitHub Action do?
 
 You can use this action to deploy a Vercel project online through a GitHub action.
