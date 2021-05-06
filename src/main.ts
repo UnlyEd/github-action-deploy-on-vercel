@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import deploy from "./vercel";
+import deploy from './vercel';
 
 /**
  * Runs configuration checks to make sure everything is properly configured.
@@ -37,8 +37,11 @@ const run = async (): Promise<void> => {
 };
 
 runConfigChecks();
+
 run()
-  .then((actionReturn) => {})
+  .then((actionReturn) => {
+    console.log('actionReturn', actionReturn);
+  })
   .catch((error) => {
     core.setFailed(error);
   });
