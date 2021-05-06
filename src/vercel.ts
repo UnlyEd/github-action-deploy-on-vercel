@@ -12,19 +12,26 @@ import {
 
 const generateAliasPromises = (deploymentId: string, teamId: string, aliases: string[]): Promise<VercelAliasResponse>[] => {
   const aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
+
   for (const alias of aliases) {
     console.log(`Creating alias ${alias}`);
-    aliasCreationPromises.push(fetch(`https://api.vercel.com/v2/now/deployments/${deploymentId}/aliases?teamId=${teamId}`, {
-      headers: {
-        'Authorization': `Bearer ${process.env.VERCEL_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        alias: alias,
-      }),
-      method: 'POST',
-    }).then((data) => data.json()));
+
+    aliasCreationPromises.push(
+      fetch(`https://api.vercel.com/v2/now/deployments/${deploymentId}/aliases?teamId=${teamId}`, {
+        headers: {
+          'Authorization': `Bearer ${process.env.VERCEL_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          alias: alias,
+        }),
+        method: 'POST',
+      })
+        .then((data) => data.json())
+        .catch((e) => console.error(e)),
+    );
   }
+
   return aliasCreationPromises;
 };
 
