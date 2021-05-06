@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
-import exec, { ExecOptions } from '@actions/exec';
-import glob, { Globber } from '@actions/glob';
+import { ExecOptions } from '@actions/exec';
+import { Globber } from '@actions/glob';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import { VERCEL_CONFIG_FILE } from './config';
@@ -9,6 +9,9 @@ import {
   VercelAliasResponseError,
   VercelConfig,
 } from './types';
+
+const exec = require('@actions/exec'); // eslint-disable-line @typescript-eslint/no-var-requires
+const glob = require('@actions/glob'); // eslint-disable-line @typescript-eslint/no-var-requires
 
 const generateAliasPromises = (deploymentId: string, teamId: string, aliases: string[]): Promise<VercelAliasResponse>[] => {
   const aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
