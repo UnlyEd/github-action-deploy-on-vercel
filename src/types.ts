@@ -1,14 +1,14 @@
 export type VercelConfig = {
-  version?: number,
-  name?: string,
-  scope?: string,
-  env?: GenericObject,
+  version?: number;
+  name?: string;
+  scope?: string;
+  env?: GenericObject;
   build?: {
-    env: GenericObject
+    env: GenericObject;
   },
-  alias: string[],
-  regions?: string[],
-  public?: boolean
+  alias: string[];
+  regions?: string[];
+  public?: boolean;
 }
 
 /**
@@ -17,10 +17,10 @@ export type VercelConfig = {
  * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
  */
 export type VercelAliasResponseError = {
-  alias: string,
-  code: string,
-  message: string,
-  uid: string
+  alias: string;
+  code: string;
+  message: string;
+  uid: string;
 }
 
 /**
@@ -30,9 +30,9 @@ export type VercelAliasResponseError = {
  */
 export type VercelAliasResponse = {
   error?: VercelAliasResponseError,
-  uid?: string,
-  alias?: string,
-  created?: string
+  uid?: string;
+  alias?: string;
+  created?: string;
 }
 
 /**
