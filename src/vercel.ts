@@ -10,6 +10,7 @@ import {
   VercelConfig,
 } from './types';
 
+// Must use "require", not compatible with "import"
 const exec = require('@actions/exec'); // eslint-disable-line @typescript-eslint/no-var-requires
 const glob = require('@actions/glob'); // eslint-disable-line @typescript-eslint/no-var-requires
 
@@ -17,7 +18,7 @@ const generateAliasPromises = (deploymentId: string, teamId: string, aliases: st
   const aliasCreationPromises: Promise<VercelAliasResponse>[] = [];
 
   for (const alias of aliases) {
-    console.log(`Creating alias ${alias}`);
+    core.debug(`Creating alias ${alias}`);
 
     aliasCreationPromises.push(
       fetch(`https://api.vercel.com/v2/now/deployments/${deploymentId}/aliases?teamId=${teamId}`, {
@@ -31,7 +32,7 @@ const generateAliasPromises = (deploymentId: string, teamId: string, aliases: st
         method: 'POST',
       })
         .then((data) => data.json())
-        .catch((e) => console.error(e)),
+        .catch((e) => core.warning(e)),
     );
   }
 
