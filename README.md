@@ -42,6 +42,8 @@ The action will return the url of the Vercel deployment _(and store it as enviro
 
 > It works quite differently compared to [`vercel-action`](https://github.com/marketplace/actions/vercel-action).
 
+> `vercel-action` is a plugin ready-to-go. It means that's really easy to start a project because it already gives you a CD pipeline. If you want to add some customization, you can override the default workflow (as described [here](https://github.com/marketplace/actions/vercel-action#github-actions)). Sadly, this plugin is too much limited when you decide to work with **B2B**. You will find in the [Community examples section](https://github.com/UnlyEd/github-action-deploy-on-vercel/tree/review#hugs-community-examples-heart) some projects where `vercel-action` was not enough.
+
 ## Why/when should you use it?
 
 You want to run a custom command that (amongst other things) performs a Vercel deployment and returns the URL of the Vercel deployment.
