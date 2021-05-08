@@ -44,3 +44,8 @@ export type VercelAliasResponse = {
  * @see https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-632833366
  */
 export type GenericObject<T = unknown> = Record<string, T>;
+
+export type ExecCommandOutput = {
+  stdout: string;
+  stderr: string;
+}

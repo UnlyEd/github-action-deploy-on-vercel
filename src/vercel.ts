@@ -5,6 +5,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import { VERCEL_CONFIG_FILE } from './config';
 import {
+  ExecCommandOutput,
   VercelAliasResponse,
   VercelAliasResponseError,
   VercelConfig,
@@ -39,7 +40,7 @@ const generateAliasPromises = (deploymentId: string, teamId: string, aliases: st
   return aliasCreationPromises;
 };
 
-const execCommand = async (command: string): Promise<string> => {
+export const execCommand = async (command: string): Promise<ExecCommandOutput> => {
   const options: ExecOptions = {};
 
   /**
@@ -62,7 +63,7 @@ const execCommand = async (command: string): Promise<string> => {
 
   await exec.exec(command, [], options);
 
-  return stdout;
+  return {stdout, stderr};
 };
 
 const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean): Promise<void> => {
@@ -121,7 +122,8 @@ const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinke
    *
    * Running "exec_command" displays the output in the console.
    */
-  const stdout: string = await execCommand(command);
+  const commandOutput: ExecCommandOutput = await execCommand(command);
+  const stdout: string = commandOutput.stdout;
 
   /**
    * Parsing this huge output by using Regex match.
