@@ -93,19 +93,19 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       core.debug(`Resolving alias promises`);
 
       const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
-      console.log(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
+      core.debug(`Alias creation response: ${JSON.stringify(aliasesResponse)}`);
 
       if (aliasesResponse.filter((response) => response.error).length > 0) {
         const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
         const message = `Got following errors: ${JSON.stringify(failedAliases)}`;
 
         failIfAliasNotLinked ? core.setFailed(message) : core.warning(message);
-        console.log(`Exporting this error...`);
+        core.debug(`Exporting this error...`);
         core.setOutput('VERCEL_ALIASES_ERROR', failedAliases);
       }
 
       for (const alias of aliasesResponse.filter((response) => !response.error)) {
-        console.log(`Created alias ${alias}`);
+        core.debug(`Created alias ${alias}`);
       }
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
@@ -156,12 +156,12 @@ const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinke
 
   if (deploymentUrl) {
     const deploymentDomain: string = deploymentUrl.replace('https://', '');
-    console.log(`Found url deployment. Exporting it...`);
-    console.log(`VERCEL_DEPLOYMENT_URL=${deploymentUrl}`);
+    core.debug(`Found url deployment. Exporting it...`);
+    core.debug(`VERCEL_DEPLOYMENT_URL=${deploymentUrl}`);
 
     core.exportVariable('VERCEL_DEPLOYMENT_URL', deploymentUrl);
     core.setOutput('VERCEL_DEPLOYMENT_URL', deploymentUrl);
-    console.log(`VERCEL_DEPLOYMENT_DOMAIN=${deploymentDomain}`);
+    core.debug(`VERCEL_DEPLOYMENT_DOMAIN=${deploymentDomain}`);
 
     core.exportVariable('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
     core.setOutput('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
