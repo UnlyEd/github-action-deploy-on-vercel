@@ -40,9 +40,17 @@ You can use this action to deploy a Vercel project online through a GitHub actio
 
 The action will return the url of the Vercel deployment _(and store it as environment variable, too)_, it will also apply domain aliases if there are any configured in the Vercel config file (`vercel.config` by default).
 
-> It works quite differently compared to [`vercel-action`](https://github.com/marketplace/actions/vercel-action).
+## Differences with `vercel-action`
 
-> `vercel-action` is a plugin ready-to-go. It means that's really easy to start a project because it already gives you a CD pipeline. If you want to add some customization, you can override the default workflow (as described [here](https://github.com/marketplace/actions/vercel-action#github-actions)). Sadly, this plugin is too much limited when you decide to work with **B2B**. You will find in the [Community examples section](https://github.com/UnlyEd/github-action-deploy-on-vercel/tree/review#hugs-community-examples-heart) some projects where `vercel-action` was not enough.
+This action works quite differently compared to [`vercel-action`](https://github.com/marketplace/actions/vercel-action).
+
+> `vercel-action` is a plugin ready-to-go. 
+> 
+> It means that's really easy to start a project because it already gives you a CD pipeline. If you want to add some customization, you can override the default workflow (as described [here](https://github.com/marketplace/actions/vercel-action#github-actions)). 
+> 
+> Unfortunately, this plugin was too much limited to handle our complicated workflow, that's why we created this action, which gives more flexibility regarding the Vercel command being executed. 
+> 
+> You will find in the [Community examples section](https://github.com/UnlyEd/github-action-deploy-on-vercel/tree/review#hugs-community-examples-heart) some projects where using `vercel-action` was not enough. _(make a PR to add your own)_
 
 ## Why/when should you use it?
 
