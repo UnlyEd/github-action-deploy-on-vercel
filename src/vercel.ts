@@ -57,7 +57,7 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
       stdout += data.toString();
     },
     stderr: (data: Buffer) => {
-      stderr += data.toString(); // TODO Nothing is done with stderr afterwards, is that normal?
+      stderr += data.toString();
     },
   };
 
