@@ -1,14 +1,14 @@
 export type VercelConfig = {
-    version?: number,
-    name?: string,
-    scope?: string,
-    env?: object,
-    build?: {
-        env: object
-    },
-    alias: string[],
-    regions?: string[],
-    public?: boolean
+  version?: number;
+  name?: string;
+  scope?: string;
+  env?: GenericObject;
+  build?: {
+    env: GenericObject;
+  },
+  alias: string[];
+  regions?: string[];
+  public?: boolean;
 }
 
 /**
@@ -17,10 +17,10 @@ export type VercelConfig = {
  * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
  */
 export type VercelAliasResponseError = {
-    alias: string,
-    code: string,
-    message: string,
-    uid: string
+  alias: string;
+  code: string;
+  message: string;
+  uid: string;
 }
 
 /**
@@ -29,8 +29,23 @@ export type VercelAliasResponseError = {
  * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
  */
 export type VercelAliasResponse = {
-    error?: VercelAliasResponseError,
-    uid?: string,
-    alias?: string,
-    created?: string
+  error?: VercelAliasResponseError,
+  uid?: string;
+  alias?: string;
+  created?: string;
+}
+
+/**
+ * Helper to avoid writing `Record<string, unknown>` everywhere you would usually use "object".
+ *
+ * @example (data: GenericObject) => void
+ * @example variables: GenericObject<string>
+ *
+ * @see https://github.com/typescript-eslint/typescript-eslint/issues/2063#issuecomment-632833366
+ */
+export type GenericObject<T = unknown> = Record<string, T>;
+
+export type ExecCommandOutput = {
+  stdout: string;
+  stderr: string;
 }

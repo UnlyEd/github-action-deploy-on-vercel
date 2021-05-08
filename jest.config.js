@@ -9,6 +9,7 @@ module.exports = {
   },
   verbose: true,
   setupFilesAfterEnv: [
+    'jest-expect-message', // Allows to add additional message when test fails - See https://github.com/mattphillips/jest-expect-message
     './jest.setup.js',
   ],
 };
