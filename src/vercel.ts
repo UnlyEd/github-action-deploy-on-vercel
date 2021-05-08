@@ -88,7 +88,8 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
           Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
         },
         method: 'GET',
-      }).then((data) => data.json()); // TODO It's weird to use both await + .then / How are exceptions handled here?
+      }).then((data) => data.json()) // We have to use a `then` here because `.json()` returns a promise.
+          .catch((error) => core.warning(`We did not receive JSON from Vercel API while creating aliases`));
 
       const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
       core.debug(`Resolving alias promises`);
