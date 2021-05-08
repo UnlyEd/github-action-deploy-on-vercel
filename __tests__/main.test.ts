@@ -25,7 +25,7 @@ describe('Unit test', () => {
     describe('using our tool', () => {
       test('with command "vercel --version" to make sure Vercel binary is installed', async () => {
         const execOutput: ExecCommandOutput = await execCommand("vercel --version");
-        expect(execOutput.stderr.includes('Vercel CLI')).toBe(true);
+        expect(execOutput.stderr.includes('Vercel CLI'), 'Vercel binary might not have been installed, try installing it globally using "yarn global add vercel".').toBe(true);
       });
     });
   });
