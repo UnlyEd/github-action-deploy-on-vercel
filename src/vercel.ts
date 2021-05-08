@@ -63,7 +63,7 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
 
   await exec.exec(command, [], options);
 
-  return {stdout, stderr};
+  return { stdout, stderr };
 };
 
 const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean): Promise<void> => {
@@ -88,8 +88,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
           Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
         },
         method: 'GET',
-      }).then((data) => data.json()) // We have to use a `then` here because `.json()` returns a promise.
-          .catch((error) => core.warning(`We did not receive JSON from Vercel API while creating aliases`));
+      })
+        .then((data) => data.json())
+        .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
       const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
       core.debug(`Resolving alias promises`);
