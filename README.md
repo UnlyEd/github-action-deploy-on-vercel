@@ -40,17 +40,21 @@ You can use this action to deploy a Vercel project online through a GitHub actio
 
 The action will return the url of the Vercel deployment _(and store it as environment variable, too)_, it will also apply domain aliases if there are any configured in the Vercel config file (`vercel.config` by default).
 
-## Differences with `vercel-action`
+## Differences between `github-action-deploy-on-vercel` and `vercel-action`
 
 This action works quite differently compared to [`vercel-action`](https://github.com/marketplace/actions/vercel-action).
 
-> `vercel-action` is a plugin ready-to-go. 
-> 
-> It means that's really easy to start a project because it already gives you a CD pipeline. If you want to add some customization, you can override the default workflow (as described [here](https://github.com/marketplace/actions/vercel-action#github-actions)). 
-> 
-> Unfortunately, this plugin was too much limited to handle our complicated workflow, that's why we created this action, which gives more flexibility regarding the Vercel command being executed. 
-> 
-> You will find in the [Community examples section](https://github.com/UnlyEd/github-action-deploy-on-vercel/tree/review#hugs-community-examples-heart) some projects where using `vercel-action` was not enough. _(make a PR to add your own)_
+> TL;DR: `vercel-action` is great if you don't need a lot of flexibility over the `vercel deploy` command.
+> `github-action-deploy-on-vercel` is great if you need to run a custom command, such as a `npm/yarn` script.
+
+`vercel-action` hides the `vercel deploy` command from you, and acts as a wrapper by providing its own API on top of it.
+
+They simplify the `vercel` command by doing so. Unfortunately, they also reduce the flexibility available to the consumer (you).
+
+In our case, we are dealing with multiple customers (B2B) which are **all sharing the same code base**. 
+The `vercel-action` was too limited and would have complicated our setup, because it requires additional information such as `project_id`/`org_id`.
+
+For most project, we believe using `vercel-action` is enough, and we encourage you to use it, if you don't need to run a special `vercel deploy` command.
 
 ## Why/when should you use it?
 
@@ -86,6 +90,7 @@ The below variables are available as outputs, but are also **injected as environ
 Here are a few community-powered examples, those are usually advanced use-cases!
 
 - [Next Right Now](https://github.com/UnlyEd/next-right-now) _(Disclosure: We're the author!)_
+  - [PR](https://github.com/UnlyEd/next-right-now/pull/296) - "Using this action helped us reduce a lot of **bash** code which was hardly testable." - _Next Right Now core contributors_
 
 ---
 
