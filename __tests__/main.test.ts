@@ -22,7 +22,7 @@ describe('Unit test', () => {
       global.console = global.unmuteConsole();
     });
 
-    describe('using your tool', () => {
+    describe('using our tool', () => {
       test('with command "vercel --version" to make sure Vercel binary is installed', async () => {
         const execOutput: ExecCommandOutput = await execCommand("vercel --version");
         expect(execOutput.stderr.includes('Vercel CLI')).toBe(true);
