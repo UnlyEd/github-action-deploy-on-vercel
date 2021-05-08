@@ -42,10 +42,6 @@ const generateAliasPromises = (deploymentId: string, teamId: string, aliases: st
 
 export const execCommand = async (command: string): Promise<ExecCommandOutput> => {
   const options: ExecOptions = {};
-
-  /**
-   * When we execute a program, it writes on two outputs : standard and error.
-   */
   let stdout = '';
   let stderr = '';
 
