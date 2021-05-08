@@ -1,3 +1,6 @@
+import { execCommand } from "../src/vercel";
+import { ExecCommandOutput } from "../src/types";
+
 /**
  * Enhance the Node.js environment "global" variable to add our own types
  *
@@ -13,26 +16,19 @@ declare global {
   }
 }
 
-describe('Functional test', () => {
-  /*describe('should pass when', () => {
+describe('Unit test', () => {
+  describe('should pass when', () => {
     beforeEach(() => {
       global.console = global.unmuteConsole();
     });
 
-    describe('using special delimiter', () => {
-      const options: cp.ExecFileSyncOptions = {
-        env: {
-          INPUT_VARIABLES: 'VAR=TEST,OTHER_VAR=OTHER_TEST,RETRIEVE',
-          INPUT_DELIMITER: ',',
-        },
-      };
-      const filteredContent = exec_lib(options);
-      test('test', () => {
-        expect(filteredContent.includes(',')).toBe(true);
-        console.log(filteredContent);
+    describe('using your tool', () => {
+      test('with command "vercel --version" to make sure Vercel binary is installed', async () => {
+        const execOutput: ExecCommandOutput = await execCommand("vercel --version");
+        expect(execOutput.stderr.includes('Vercel CLI')).toBe(true);
       });
     });
-  });*/
+  });
 });
 
 export default {};
