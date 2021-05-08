@@ -40,7 +40,7 @@ runConfigChecks();
 
 run()
   .then((actionReturn) => {
-    core.debug(`actionReturn: ${actionReturn}`);
+    core.debug(`Execution done successfully.`);
   })
   .catch((error) => {
     core.setFailed(error);
