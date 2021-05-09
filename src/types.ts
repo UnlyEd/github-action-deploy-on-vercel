@@ -33,6 +33,7 @@ export type VercelAliasResponse = {
   uid?: string;
   alias?: string;
   created?: string;
+  oldDeploymentId?: string;
 }
 
 /**
