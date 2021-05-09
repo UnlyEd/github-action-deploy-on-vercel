@@ -116,7 +116,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   }
 };
 
-const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
+const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
   /**
    * Executes the command provided and stores it into a variable, so we can parse the output and extract metadata from it.
    *
@@ -168,7 +168,7 @@ const deploy = async (command: string, deployAlias: boolean, failIfAliasNotLinke
     core.exportVariable('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
     core.setOutput('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
 
-    if (deployAlias) {
+    if (applyDomainAliases) {
       await createAliases(deploymentUrl, customDeploymentFile, failIfAliasNotLinked);
     }
   } else {
