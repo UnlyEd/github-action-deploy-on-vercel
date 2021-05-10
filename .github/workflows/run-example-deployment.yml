@@ -21,3 +21,5 @@ jobs:
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
 
       - run: "echo \"Created aliases ${{ env.VERCEL_ALIASES_CREATED }}\""
+
+      - run: "echo \"Alias markdown generated: ${{ env.VERCEL_ALIASES_CREATED_URLS_MD }}\""

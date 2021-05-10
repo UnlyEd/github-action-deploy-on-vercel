@@ -109,8 +109,13 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         core.debug(`Created alias "${aliasSuccess?.alias}".`);
       }
 
+      const aliasesUrlsMarkdown: string = aliasesSucceeded.map((aliasSuccess) => `[aliasSuccess.alias](aliasSuccess.alias)`).join(', ');
+
       core.setOutput('VERCEL_ALIASES_CREATED', aliasesSucceeded);
       core.exportVariable('VERCEL_ALIASES_CREATED', aliasesSucceeded.map((aliasSuccess) => aliasSuccess.alias).join(', '));
+
+      core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
+      core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
 
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
