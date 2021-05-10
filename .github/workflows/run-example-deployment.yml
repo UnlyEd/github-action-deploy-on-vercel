@@ -22,7 +22,8 @@ jobs:
           applyDomainAliases: true
           failIfAliasNotLinked: false
           extraAliases: >-
-            - github-action-deploy-on-vercel-${{ steps.extract_branch.outputs.branch }}.vercel.app
+            github-action-deploy-on-vercel-${{ steps.extract_branch.outputs.branch }}.vercel.app,
+            github-action-deploy-on-vercel-dynamic
 
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
