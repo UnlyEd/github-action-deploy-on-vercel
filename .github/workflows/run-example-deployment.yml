@@ -10,11 +10,20 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - uses: ./
         with:
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
           applyDomainAliases: true
           failIfAliasNotLinked: false
+          extraAliases: >-
+            - github-action-deploy-on-vercel-${{ steps.extract_branch.outputs.branch }}.vercel.app
+
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
