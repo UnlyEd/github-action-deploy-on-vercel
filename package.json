@@ -20,7 +20,9 @@
     "test:config": "NODE_ENV=test jest --showConfig",
     "test:integration": "INPUT_COMMAND=\"echo $(yarn mocks:display)\" node -r dotenv/config lib/main.js",
     "mocks:display": "export $(cat .env | xargs);envsubst < mocks/deployment.txt",
-    "act:actions:list": "act --version && act --list"
+    "act:actions:list": "act --version && act --list",
+    "security:audit": "yarn audit",
+    "packages:upgrade": "yarn upgrade-interactive --latest"
   },
   "repository": {
     "type": "git",
