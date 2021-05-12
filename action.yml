@@ -16,7 +16,7 @@ inputs:
     required: false
     default: "false"
   extraAliases:
-    description: 'List of alias which can be created dynamically'
+    description: 'List of additional aliases to create, will be added to the aliases specified in the vercel.json:aliases file'
     required: false
 outputs:
   VERCEL_DEPLOYMENT_URL:
