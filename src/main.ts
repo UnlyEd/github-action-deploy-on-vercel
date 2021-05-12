@@ -26,13 +26,13 @@ const run = async (): Promise<void> => {
 
   try {
     const command: string = core.getInput('command');
-    const extraAliases: string = core.getInput('extraAliases');
+    const extraAliases: string[] | undefined = core.getInput('extraAliases')?.split(', ');
     const applyDomainAliases: boolean = core.getInput('applyDomainAliases') == 'true';
     const failIfAliasNotLinked: boolean = core.getInput('failIfAliasNotLinked') == 'true';
     core.debug(`Received command: ${command}`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true https://github.com/actions/toolkit/blob/master/docs/action-debugging.md#how-to-access-step-debug-logs
     core.debug(`Should we deploy aliases ? "${applyDomainAliases}"`);
     console.log(`|${extraAliases}|`);
-    await deploy(command, applyDomainAliases, failIfAliasNotLinked);
+    await deploy(command, applyDomainAliases, failIfAliasNotLinked, extraAliases);
   } catch (error) {
     core.setFailed(error.message);
   }

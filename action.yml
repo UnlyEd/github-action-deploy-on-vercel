@@ -15,6 +15,9 @@ inputs:
     description: 'If true, will throw an error (and crash CI) when there is an error about aliases link'
     required: false
     default: "false"
+  extraAliases:
+    description: 'List of alias which can be created dynamically'
+    required: false
 outputs:
   VERCEL_DEPLOYMENT_URL:
     description: "Full Vercel deployment url (parsed from the deployment logs), e.g: https://xxx.vercel.app"

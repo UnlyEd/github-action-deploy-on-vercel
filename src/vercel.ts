@@ -62,7 +62,7 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
   return { stdout, stderr };
 };
 
-const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean): Promise<void> => {
+const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean, extraAliases: string[] | undefined): Promise<void> => {
   core.debug(`Starting to link aliases`);
 
   // Globber is a github action tool https://github.com/actions/toolkit/tree/master/packages/glob
@@ -70,12 +70,12 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   const globber: Globber = await glob.create(customDeploymentFile);
   const vercelConfigFile: string = (await globber.glob())[0];
 
-  if (vercelConfigFile && fs.existsSync(vercelConfigFile)) {
+  if ((vercelConfigFile && fs.existsSync(vercelConfigFile)) || extraAliases) {
     core.debug(`Found custom config file: ${vercelConfigFile}`);
     core.debug(`Found real path: ${vercelConfigFile}`);
     const vercelConfig: VercelConfig = JSON.parse(fs.readFileSync(vercelConfigFile, 'utf8'));
 
-    if (vercelConfig.alias) {
+    if (vercelConfig.alias || extraAliases) {
       const {
         id,
         ownerId,
@@ -87,6 +87,10 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       })
         .then((data) => data.json())
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
+
+      console.log("Config aliases: ", vercelConfig.alias);
+      console.log("Extra aliases: ", extraAliases);
+      //const aliasAsked: string[] = [...vercelConfig.alias, ...extraAliases]
 
       const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
       core.debug(`Resolving alias promises`);
@@ -125,7 +129,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   }
 };
 
-const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
+const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean, extraAliases: string[] | undefined): Promise<void> => {
   /**
    * Executes the command provided and stores it into a variable, so we can parse the output and extract metadata from it.
    *
@@ -177,8 +181,8 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
     core.exportVariable('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
     core.setOutput('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
 
-    if (applyDomainAliases) {
-      await createAliases(deploymentUrl, customDeploymentFile, failIfAliasNotLinked);
+    if (applyDomainAliases || extraAliases) {
+      await createAliases(deploymentUrl, customDeploymentFile, failIfAliasNotLinked, extraAliases);
     }
   } else {
     core.setFailed(`"Error during command execution, cannot find any url matching (using a regex to retrieve a url as "https://*.vercel.app"`);
