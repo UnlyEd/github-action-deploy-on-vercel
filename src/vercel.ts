@@ -88,6 +88,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         .then((data) => data.json())
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
+      const aliasAsked2: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])]
+          .filter((alias) => alias ? true : false); // Merge both static and dynamic aliases, and make sure to remove any undefined element
+      core.debug(`List of aliases to apply before: ${aliasAsked2}`);
       const aliasAsked: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])]
           .filter((alias) => alias ? true : false) // Merge both static and dynamic aliases, and make sure to remove any undefined element
           .map((alias) => alias.substring(0,62)); // According to RFC 1035, each DNS label has a limit of 63 characters
