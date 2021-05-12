@@ -1,9 +1,5 @@
 {
   "version": 2,
   "name": "github-action-deploy-on-vercel-example",
-  "scope": "team_qnVfSEVc2WwmOE1OYhZr4VST",
-  "alias": [
-    "github-action-deploy-on-vercel-example-alias.vercel.app",
-    "deploy-on-vercel-example.vercel.app"
-  ]
+  "scope": "team_qnVfSEVc2WwmOE1OYhZr4VST"
 }

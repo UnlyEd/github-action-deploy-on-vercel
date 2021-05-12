@@ -28,6 +28,9 @@ jobs:
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
           applyDomainAliases: true
           failIfAliasNotLinked: false
+          extraAliases: >-
+            github-action-deploy-on-vercel-${{ env.BRANCH_NAME }}.vercel.app,
+            github-action-deploy-on-vercel-dynamic
 
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
