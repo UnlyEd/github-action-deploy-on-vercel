@@ -9,7 +9,7 @@ jobs:
   run-example-deployment:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - uses: ./
         with:
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
