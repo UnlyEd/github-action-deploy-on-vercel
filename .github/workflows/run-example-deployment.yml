@@ -13,7 +13,7 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(git rev-parse --abbrev-ref HEAD)"
+        run: echo '::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)'
         id: extract_branch
 
       - uses: ./
