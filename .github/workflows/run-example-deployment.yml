@@ -13,7 +13,7 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) >> $GITHUB_ENV
+        run: echo BRANCH_NAME=${GIT_COMMIT_REF##*/} >> $GITHUB_ENV
         id: extract_branch
 
       - uses: ./
