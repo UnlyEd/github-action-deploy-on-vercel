@@ -87,8 +87,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       })
         .then((data) => data.json())
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
-
+      console.log(`Is it executed?`);
       const aliasAsked: string[] = [...vercelConfig.alias, ...extraAliases].filter((alias) => alias ? true : false); // Merge both static and dynamic aliases, and make sure to remove any undefined element.
+      console.log(`Is it?`);
       core.debug(`List of aliases to apply: ${aliasAsked}`);
 
       const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, aliasAsked);
