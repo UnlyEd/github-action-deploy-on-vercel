@@ -30,7 +30,8 @@ jobs:
           failIfAliasNotLinked: false
           extraAliases: >-
             github-action-deploy-on-vercel-${{ env.BRANCH_NAME }}.vercel.app,
-            github-action-deploy-on-vercel-dynamic.vercel.app
+            github-action-deploy-on-vercel-dynamic.vercel.app,
+            01234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162.vercel.app
 
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
