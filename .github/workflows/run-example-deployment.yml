@@ -10,11 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      - uses: nelonoel/branch-name@v1 # Provide a {{ env.BRANCH_NAME }} to use
 
       - uses: ./
         with:
@@ -22,8 +18,8 @@ jobs:
           applyDomainAliases: true
           failIfAliasNotLinked: false
           extraAliases: >-
-            github-action-deploy-on-vercel-${{ steps.extract_branch.outputs.branch }}.vercel.app,
-            github-action-deploy-on-vercel-dynamic
+            github-action-deploy-on-vercel-${{ env.BRANCH_NAME }}.vercel.app,
+            github-action-deploy-on-vercel-dynamic.vercel.app
 
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
