@@ -62,7 +62,7 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
   return { stdout, stderr };
 };
 
-const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean, extraAliases: string[] | undefined): Promise<void> => {
+const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean, extraAliases: string[]): Promise<void> => {
   core.debug(`Starting to link aliases`);
 
   // Globber is a github action tool https://github.com/actions/toolkit/tree/master/packages/glob
@@ -88,11 +88,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         .then((data) => data.json())
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
-      console.log("Config aliases: ", vercelConfig.alias);
-      console.log("Extra aliases: ", extraAliases);
-      //const aliasAsked: string[] = [...vercelConfig.alias, ...extraAliases]
+      const aliasAsked: string[] = [...vercelConfig.alias, ...extraAliases]
 
-      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
+      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, aliasAsked);
       core.debug(`Resolving alias promises`);
 
       const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
@@ -129,7 +127,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   }
 };
 
-const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean, extraAliases: string[] | undefined): Promise<void> => {
+const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean, extraAliases: string[]): Promise<void> => {
   /**
    * Executes the command provided and stores it into a variable, so we can parse the output and extract metadata from it.
    *
