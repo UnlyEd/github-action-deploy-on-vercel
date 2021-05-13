@@ -27,4 +27,4 @@ outputs:
     description: "(optional) Vercel errors during domain aliasing"
 runs:
   using: 'node12'
-  main: 'lib/main.js'
+  main: 'github-action-runtime/index.js'
