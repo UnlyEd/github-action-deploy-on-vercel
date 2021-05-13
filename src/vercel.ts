@@ -89,11 +89,11 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
       // Merge both static and dynamic aliases, and make sure to remove any undefined element
-      const aliasesToCreate: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])].filter((alias) => !!alias);
+      let aliasesToCreate: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])].filter((alias) => !!alias);
       core.debug(`List of aliases to apply: ${aliasesToCreate}`);
 
       // Sanitizing
-      aliasesToCreate.map((alias: string) => {
+      aliasesToCreate = aliasesToCreate.map((alias: string) => {
         const subdomain: string = alias.split('.')?.[0];
         return subdomain.substring(0, 63);
       });
