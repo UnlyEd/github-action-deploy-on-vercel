@@ -94,7 +94,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
 
       // Sanitizing
       aliasesToCreate = aliasesToCreate.map((alias: string) => {
-        const subdomain: string = alias.split('.')?.[0];
+        const subdomain: string = alias.split('.')?.[0]; // TODO strip "-" at the end to avoid breaking urls when last chars is a "-"
 
         if (subdomain?.length > 63) {
           core.warning(`Alias is too long (< 63 chars) and will be stripped: ${subdomain}`);
