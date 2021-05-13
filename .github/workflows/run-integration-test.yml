@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      - run: yarn # Install all dependencies
       - uses: ./
         with:
+          # TODO Explain what this command does, it's unclear. It looks like it's an integration test for parsing the vercel output
           command: "yarn test:integration"
           applyDomainAliases: true
           failIfAliasNotLinked: false
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          # TODO Why is this necessary? Shouldn't it be an output? It's not supposed to be provided as input
           VERCEL_DEPLOYMENT_URL: "https://github-action-deploy-on-vercel-example.vercel.app/"
 
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""

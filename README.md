@@ -83,8 +83,60 @@ The below variables are available as outputs, but are also **injected as environ
 - `VERCEL_DEPLOYMENT_DOMAIN`: Url without the protocol declaration, e.g: `xxx.vercel.app`
 - `VERCEL_ALIASES_ERROR`: _(optional)_ Vercel errors during domain aliasing
 - `VERCEL_ALIASES_CREATED`: List of aliases created successfully, as a string separated by `, ` for each alias
+- `VERCEL_ALIASES_CREATED_COUNT`: Number of created aliases
 - `VERCEL_ALIASES_CREATED_FULL`: List of aliases created successfully, as a JSON array containing the Vercel's response 
+- `VERCEL_ALIASES_CREATED_URLS_MD`: List of aliases created successfully, as a Markdown string separated by `, ` for each alias
+- `VERCEL_ALIASES_FAILED_COUNT`: Number of aliases that failed to be created
+- `VERCEL_ALIASES_FAILED_FULL`: List of aliases that failed, as a JSON array containing the Vercel's response 
 > Hint: You can use `${{ env.VERCEL_DEPLOYMENT_URL }}` in you GitHub Action to read the deployment URL, after the action has run.
+
+## Advanced examples
+
+### Example with dynamic aliases based on GitHub branch (on `push` event)
+
+```yml
+name: 'GitHub Action deploy example'
+on:
+  pull_request:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  run-example-deployment:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      # Extracts GitHub metadata (branch name, etc.)
+      - name: Expose GitHub slug/short variables # See https://github.com/rlespinasse/github-slug-action#exposed-github-environment-variables
+        uses: rlespinasse/github-slug-action@v3.x # See https://github.com/rlespinasse/github-slug-action
+
+      - uses: ./
+        with:
+          # Deploys examples/static-deployment
+          command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
+          applyDomainAliases: true
+          failIfAliasNotLinked: false
+          # Uses dynamically resolved additional aliases (e.g: one based on the current branch's name)
+          # Uses alias that's longer than 63 chars to check if it gets shortened, because of RFC 1035 - See https://vercel.com/support/articles/why-is-my-vercel-deployment-url-being-shortened?query=url%20length#rfc-1035
+          #  github-action-deploy-on-vercel-example-extra-alias-test-limit-alias-length.vercel.app > github-action-deploy-on-vercel-example-extra-alias-test-limit-a.vercel.app (shortened)
+          # TODO Don't always use GITHUB_REF_SLUG (push) but GITHUB_HEAD_REF_SLUG when event is pull_request - See https://github.com/rlespinasse/github-slug-action/issues/71
+          extraAliases: >-
+            github-action-deploy-on-vercel-example-${{ env.GITHUB_REF_SLUG }}.vercel.app
+
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
+      - run: "echo \"Created ${{ env.VERCEL_ALIASES_CREATED_COUNT }} aliases\""
+      - run: "echo \"Created aliases: ${{ env.VERCEL_ALIASES_CREATED }}\""
+      - run: "echo \"Created aliases (full): ${{ env.VERCEL_ALIASES_CREATED_FULL }}\""
+      - run: "echo \"Alias markdown generated: ${{ env.VERCEL_ALIASES_CREATED_URLS_MD }}\""
+      - run: "echo \"Failed ${{ env.VERCEL_ALIASES_FAILED_COUNT }} aliases\""
+      - run: "echo \"Failed aliases (full): ${{ env.VERCEL_ALIASES_FAILED_FULL }}\""
+```
+
 
 ## :hugs: Community examples :heart:
 

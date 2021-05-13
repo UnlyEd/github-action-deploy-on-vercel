@@ -62,7 +62,7 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
   return { stdout, stderr };
 };
 
-const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean): Promise<void> => {
+const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean, extraAliases: string[]): Promise<void> => {
   core.debug(`Starting to link aliases`);
 
   // Globber is a github action tool https://github.com/actions/toolkit/tree/master/packages/glob
@@ -70,12 +70,12 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   const globber: Globber = await glob.create(customDeploymentFile);
   const vercelConfigFile: string = (await globber.glob())[0];
 
-  if (vercelConfigFile && fs.existsSync(vercelConfigFile)) {
+  if ((vercelConfigFile && fs.existsSync(vercelConfigFile)) || extraAliases) {
     core.debug(`Found custom config file: ${vercelConfigFile}`);
     core.debug(`Found real path: ${vercelConfigFile}`);
     const vercelConfig: VercelConfig = JSON.parse(fs.readFileSync(vercelConfigFile, 'utf8'));
 
-    if (vercelConfig.alias) {
+    if (vercelConfig.alias || extraAliases) {
       const {
         id,
         ownerId,
@@ -88,7 +88,24 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         .then((data) => data.json())
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
-      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, vercelConfig.alias);
+      // Merge both static and dynamic aliases, and make sure to remove any undefined element
+      let aliasesToCreate: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])].filter((alias) => !!alias);
+      core.debug(`List of aliases to apply: ${aliasesToCreate}`);
+
+      // Sanitizing
+      aliasesToCreate = aliasesToCreate.map((alias: string) => {
+        const subdomain: string = alias.split('.')?.[0];
+
+        if (subdomain?.length > 63) {
+          core.warning(`Alias is too long (< 63 chars) and will be stripped: ${subdomain}`);
+          return subdomain.substring(0, 63);
+        }
+
+        return alias;
+      });
+      core.debug(`Sanitized aliases (63 chars max): ${aliasesToCreate}`);
+
+      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, aliasesToCreate);
       core.debug(`Resolving alias promises`);
 
       const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
@@ -109,13 +126,26 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         core.debug(`Created alias "${aliasSuccess?.alias}".`);
       }
 
-      const aliasesUrlsMarkdown: string = aliasesSucceeded.map((aliasSuccess) => `[${aliasSuccess?.alias}](https://${aliasSuccess?.alias})`).join(', ');
+      const aliasesCreated: string = aliasesSucceeded.map((aliasSuccess) => aliasSuccess?.alias).join(', ');
+      const aliasesCreatedUrlsMarkdown: string = aliasesSucceeded.map((aliasSuccess) => `[${aliasSuccess?.alias}](https://${aliasSuccess?.alias})`).join(', ');
 
-      core.setOutput('VERCEL_ALIASES_CREATED', aliasesSucceeded);
-      core.exportVariable('VERCEL_ALIASES_CREATED', aliasesSucceeded.map((aliasSuccess) => aliasSuccess?.alias).join(', '));
+      core.setOutput('VERCEL_ALIASES_CREATED', aliasesCreated);
+      core.exportVariable('VERCEL_ALIASES_CREATED', aliasesCreated);
 
-      core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
-      core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
+      core.setOutput('VERCEL_ALIASES_CREATED_COUNT', aliasesSucceeded?.length);
+      core.exportVariable('VERCEL_ALIASES_CREATED_COUNT', aliasesSucceeded?.length);
+
+      core.setOutput('VERCEL_ALIASES_FAILED_COUNT', aliasesErrors?.length);
+      core.exportVariable('VERCEL_ALIASES_FAILED_COUNT', aliasesErrors?.length);
+
+      core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
+      core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
+
+      core.setOutput('VERCEL_ALIASES_CREATED_FULL', aliasesSucceeded);
+      core.exportVariable('VERCEL_ALIASES_CREATED_FULL', aliasesSucceeded);
+
+      core.setOutput('VERCEL_ALIASES_FAILED_FULL', aliasesErrors);
+      core.exportVariable('VERCEL_ALIASES_FAILED_FULL', aliasesErrors);
 
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
@@ -125,7 +155,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
   }
 };
 
-const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean): Promise<void> => {
+const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasNotLinked: boolean, extraAliases: string[]): Promise<void> => {
   /**
    * Executes the command provided and stores it into a variable, so we can parse the output and extract metadata from it.
    *
@@ -145,6 +175,7 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
    *          "i" make the regex case insensitive. It will match for "https://subDomainApp.vercel.app" and "https://subdomainapp.vercel.app"
    *          "shift" returns the first occurence
    */
+    // TODO should be a function, should be tested using unit tests
   const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
 
   /**
@@ -177,8 +208,8 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
     core.exportVariable('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
     core.setOutput('VERCEL_DEPLOYMENT_DOMAIN', deploymentDomain);
 
-    if (applyDomainAliases) {
-      await createAliases(deploymentUrl, customDeploymentFile, failIfAliasNotLinked);
+    if (applyDomainAliases || extraAliases) {
+      await createAliases(deploymentUrl, customDeploymentFile, failIfAliasNotLinked, extraAliases);
     }
   } else {
     core.setFailed(`"Error during command execution, cannot find any url matching (using a regex to retrieve a url as "https://*.vercel.app"`);
