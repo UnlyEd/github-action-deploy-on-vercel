@@ -129,6 +129,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
       core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
 
+      core.setOutput('VERCEL_ALIASES_CREATED_FULL', aliasesSucceeded);
+      core.exportVariable('VERCEL_ALIASES_CREATED_FULL', aliasesSucceeded);
+
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
     }
