@@ -6,7 +6,7 @@
   "main": "lib/main.js",
   "scripts": {
     "start": "yarn build",
-    "build": "tsc --watch",
+    "build": "concurrently -p '{name}' -n 'tsc,ncc' -c 'gray.bgWhite,yellow.bgBlue' \"tsc --watch\" \"yarn build:gha-runtime --watch\"",
     "build:once": "tsc && yarn build:gha-runtime",
     "build:gha-runtime": "ncc build lib/main.js -o github-action-runtime --minify --source-map --license LICENSE --stats-out 'github-action-runtime/stats.json'",
     "deploy:example": "vercel examples/static-deployment --confirm --debug",
@@ -53,6 +53,7 @@
     "@types/node-fetch": "2.5.10",
     "@typescript-eslint/parser": "4.23.0",
     "@vercel/ncc": "0.28.5",
+    "concurrently": "6.1.0",
     "dotenv": "9.0.2",
     "eslint": "7.26.0",
     "eslint-plugin-github": "4.1.3",
