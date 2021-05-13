@@ -126,8 +126,8 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       core.setOutput('VERCEL_ALIASES_CREATED', aliasesCreated);
       core.exportVariable('VERCEL_ALIASES_CREATED', aliasesCreated);
 
-      core.setOutput('VERCEL_ALIASES_CREATED_COUNT', aliasesCreated?.length);
-      core.exportVariable('VERCEL_ALIASES_CREATED_COUNT', aliasesCreated?.length);
+      core.setOutput('VERCEL_ALIASES_CREATED_COUNT', aliasesSucceeded?.length);
+      core.exportVariable('VERCEL_ALIASES_CREATED_COUNT', aliasesSucceeded?.length);
 
       core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
       core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
