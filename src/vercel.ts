@@ -120,13 +120,14 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         core.debug(`Created alias "${aliasSuccess?.alias}".`);
       }
 
-      const aliasesUrlsMarkdown: string = aliasesSucceeded.map((aliasSuccess) => `[${aliasSuccess?.alias}](https://${aliasSuccess?.alias})`).join(', ');
+      const aliasesCreated: string = aliasesSucceeded.map((aliasSuccess) => aliasSuccess?.alias).join(', ');
+      const aliasesCreatedUrlsMarkdown: string = aliasesSucceeded.map((aliasSuccess) => `[${aliasSuccess?.alias}](https://${aliasSuccess?.alias})`).join(', ');
 
-      core.setOutput('VERCEL_ALIASES_CREATED', aliasesSucceeded);
-      core.exportVariable('VERCEL_ALIASES_CREATED', aliasesSucceeded.map((aliasSuccess) => aliasSuccess?.alias).join(', '));
+      core.setOutput('VERCEL_ALIASES_CREATED', aliasesCreated);
+      core.exportVariable('VERCEL_ALIASES_CREATED', aliasesCreated);
 
-      core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
-      core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesUrlsMarkdown);
+      core.setOutput('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
+      core.exportVariable('VERCEL_ALIASES_CREATED_URLS_MD', aliasesCreatedUrlsMarkdown);
 
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
@@ -156,6 +157,7 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
    *          "i" make the regex case insensitive. It will match for "https://subDomainApp.vercel.app" and "https://subdomainapp.vercel.app"
    *          "shift" returns the first occurence
    */
+  // TODO should be a function, should be tested using unit tests
   const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
 
   /**
