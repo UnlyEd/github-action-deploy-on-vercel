@@ -89,10 +89,17 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
         .catch((error) => core.warning(`Did not receive JSON from Vercel API while creating aliases. Message: ${error?.message}`));
 
       // Merge both static and dynamic aliases, and make sure to remove any undefined element
-      const aliasAsked: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])].filter((alias) => !!alias);
-      core.debug(`List of aliases to apply: ${aliasAsked}`);
+      const aliasesToCreate: string[] = [...(vercelConfig?.alias || []), ...(extraAliases || [])].filter((alias) => !!alias);
+      core.debug(`List of aliases to apply: ${aliasesToCreate}`);
 
-      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, aliasAsked);
+      // Sanitizing
+      aliasesToCreate.map((alias: string) => {
+        const subdomain: string = alias.split('.')?.[0];
+        return subdomain.substring(0, 63);
+      });
+      core.debug(`Sanitized aliases (63 chars max): ${aliasesToCreate}`);
+
+      const aliasCreationPromises: Promise<VercelAliasResponse>[] = generateAliasPromises(id, ownerId, aliasesToCreate);
       core.debug(`Resolving alias promises`);
 
       const aliasesResponse: VercelAliasResponse[] = await Promise.all<VercelAliasResponse>(aliasCreationPromises);
