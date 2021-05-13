@@ -84,7 +84,9 @@ The below variables are available as outputs, but are also **injected as environ
 - `VERCEL_ALIASES_ERROR`: _(optional)_ Vercel errors during domain aliasing
 - `VERCEL_ALIASES_CREATED`: List of aliases created successfully, as a string separated by `, ` for each alias
 - `VERCEL_ALIASES_CREATED_COUNT`: Number of created aliases
+- `VERCEL_ALIASES_FAILED_COUNT`: Number of aliases that failed to be created
 - `VERCEL_ALIASES_CREATED_FULL`: List of aliases created successfully, as a JSON array containing the Vercel's response 
+- `VERCEL_ALIASES_FAILED_FULL`: List of aliases that failed, as a JSON array containing the Vercel's response 
 - `VERCEL_ALIASES_CREATED_URLS_MD`: List of aliases created successfully, as a Markdown string separated by `, ` for each alias
 > Hint: You can use `${{ env.VERCEL_DEPLOYMENT_URL }}` in you GitHub Action to read the deployment URL, after the action has run.
 
