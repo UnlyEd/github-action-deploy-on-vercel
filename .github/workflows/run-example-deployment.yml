@@ -25,7 +25,7 @@ jobs:
           # Uses alias that's longer than 63 chars to check if it gets shortened, because of RFC 1035 - See https://vercel.com/support/articles/why-is-my-vercel-deployment-url-being-shortened?query=url%20length#rfc-1035
           #  github-action-deploy-on-vercel-example-extra-alias-test-limit-alias-length.vercel.app > github-action-deploy-on-vercel-example-extra-alias-test-limit-a.vercel.app (shortened)
           extraAliases: >-
-            github-action-deploy-on-vercel-example-${{ env.GITHUB_HEAD_REF_SLUG }}.vercel.app,
+            github-action-deploy-on-vercel-example-${{ env.GITHUB_REF_SLUG }}.vercel.app,
             github-action-deploy-on-vercel-example-extra-alias.vercel.app,
             github-action-deploy-on-vercel-example-extra-alias-test-limit-alias-length.vercel.app
 
