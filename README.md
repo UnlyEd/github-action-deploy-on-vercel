@@ -74,6 +74,7 @@ Name | Required | Default | Description
 `command`|✅| | Command starting the vercel deployment
 `applyDomainAliases`|✖️|`true`| If true, will create Vercel aliases using the aliases specified in the vercel config file
 `failIfAliasNotLinked`|✖️|`false`| If true, will throw an error (and crash CI) when there is an error about aliases link
+`extraAliases`|✖️|``| String of domain aliases, split by `, `. Will be merged with the `vercel.json:aliases`. Can be used to [dynamically alias the current branch](#example-with-dynamic-aliases-based-on-github-branch-on-push-event).
 
 #### Outputs
 
