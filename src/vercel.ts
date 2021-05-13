@@ -94,8 +94,14 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
 
       // Sanitizing
       aliasesToCreate = aliasesToCreate.map((alias: string) => {
-        const subdomain: string = alias.split('.')?.[0];
-        return subdomain.substring(0, 63);
+        if (alias?.length > 63) {
+          core.warning(`Alias is too long (< 63 chars) and will be stripped: ${alias}`);
+
+          const subdomain: string = alias.split('.')?.[0];
+          return subdomain.substring(0, 63);
+        }
+
+        return alias;
       });
       core.debug(`Sanitized aliases (63 chars max): ${aliasesToCreate}`);
 
@@ -169,7 +175,7 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
    *          "i" make the regex case insensitive. It will match for "https://subDomainApp.vercel.app" and "https://subdomainapp.vercel.app"
    *          "shift" returns the first occurence
    */
-  // TODO should be a function, should be tested using unit tests
+    // TODO should be a function, should be tested using unit tests
   const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
 
   /**
