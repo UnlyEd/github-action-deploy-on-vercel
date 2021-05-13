@@ -89,7 +89,7 @@ vcs.xml
 .idea/markdown-navigator*/**
 
 # package directories
-#node_modules # XXX Necessary for GitHub Actions
+node_modules
 jspm_packages
 
 # Serverless directories
