@@ -11,25 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # extract branch name on branch push
-      - name: Extract branch name (in case of push on branch)
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-        id: extract_branch
-
-      # extract branch name on pull request changes
-      - name: Extract branch name (in case of changes on pull request)
-        if: github.event_name == 'pull_request'
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF})" >> $GITHUB_ENV
+      # Extracts GitHub metadata (branch name, etc.)
+      - name: Expose GitHub slug/short variables # See https://github.com/rlespinasse/github-slug-action#exposed-github-environment-variables
+        uses: rlespinasse/github-slug-action@v3.x # See https://github.com/rlespinasse/github-slug-action
 
       - uses: ./
         with:
+          # Deploys examples/static-deployment
           command: "yarn deploy:example --token ${{ secrets.VERCEL_TOKEN }}"
           applyDomainAliases: true
           failIfAliasNotLinked: false
+          # Configure dynamically resolved additional aliases (e.g: one based on the current branch's name)
           extraAliases: >-
-            github-action-deploy-on-vercel-${{ env.BRANCH_NAME }}.vercel.app,
+            github-action-deploy-on-vercel-${{ env.GITHUB_REF_SLUG }}.vercel.app,
             github-action-deploy-on-vercel-dynamic.vercel.app,
             github-action-deploy-on-vercel-dynamic-test-limit-alias-length.vercel.app
 
@@ -39,5 +33,4 @@ jobs:
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
       - run: "echo \"Created aliases ${{ env.VERCEL_ALIASES_CREATED }}\""
       - run: "echo \"Created aliases (full) ${{ env.VERCEL_ALIASES_CREATED_FULL }}\""
-
       - run: "echo \"Alias markdown generated: ${{ env.VERCEL_ALIASES_CREATED_URLS_MD }}\""
