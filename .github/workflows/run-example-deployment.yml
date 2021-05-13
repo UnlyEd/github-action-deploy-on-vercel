@@ -33,6 +33,7 @@ jobs:
 
       # TODO Add anti-regression tests to check all aliases have been deployed correctly!
       - run: "echo \"Found deployment url: ${{ env.VERCEL_DEPLOYMENT_URL }}\""
-      - run: "echo \"Created aliases ${{ env.VERCEL_ALIASES_CREATED }}\""
-      - run: "echo \"Created aliases (full) ${{ env.VERCEL_ALIASES_CREATED_FULL }}\""
+      - run: "echo \"Created ${{ env.VERCEL_ALIASES_CREATED_COUNT }} aliases\""
+      - run: "echo \"Created aliases: ${{ env.VERCEL_ALIASES_CREATED }}\""
+      - run: "echo \"Created aliases (full): ${{ env.VERCEL_ALIASES_CREATED_FULL }}\""
       - run: "echo \"Alias markdown generated: ${{ env.VERCEL_ALIASES_CREATED_URLS_MD }}\""
