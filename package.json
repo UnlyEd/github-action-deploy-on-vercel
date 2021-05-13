@@ -7,7 +7,8 @@
   "scripts": {
     "start": "yarn build",
     "build": "tsc --watch",
-    "build:once": "tsc",
+    "build:once": "tsc && yarn build:gha-runtime",
+    "build:gha-runtime": "ncc build lib/main.js -o github-action-runtime --minify --source-map --license LICENSE --stats-out 'github-action-runtime/stats.json'",
     "deploy:example": "vercel examples/static-deployment --confirm --debug",
     "format": "prettier --write **/*.ts",
     "format:preview": "prettier --check **/*.ts",
