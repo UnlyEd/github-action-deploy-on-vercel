@@ -7,18 +7,15 @@ import { ExecCommandOutput } from "../src/types";
  * @see https://stackoverflow.com/a/42304473/2391795
  */
 declare global {
-  namespace NodeJS {
-    interface Global {
-      muteConsole: () => any;
-      muteConsoleButLog: () => any;
-      unmuteConsole: () => any;
-    }
-  }
+  let muteConsole: () => any;
+  let muteConsoleButLog: () => any;
+  let unmuteConsole: () => any;
 }
 
 describe('Unit test', () => {
   describe('should pass when', () => {
     beforeEach(() => {
+      // @ts-ignore
       global.console = global.unmuteConsole();
     });
 
