@@ -4,12 +4,7 @@ import { Globber } from '@actions/glob';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import { VERCEL_CONFIG_FILE } from './config';
-import {
-  ExecCommandOutput,
-  VercelAliasResponse,
-  VercelAliasResponseError,
-  VercelConfig,
-} from './types';
+import { ExecCommandOutput, VercelAliasResponse, VercelAliasResponseError, VercelConfig } from './types';
 
 // Must use "require", not compatible with "import"
 const exec = require('@actions/exec'); // eslint-disable-line @typescript-eslint/no-var-requires
@@ -76,10 +71,7 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
     const vercelConfig: VercelConfig = JSON.parse(fs.readFileSync(vercelConfigFile, 'utf8'));
 
     if (vercelConfig.alias || extraAliases) {
-      const {
-        id,
-        ownerId,
-      } = await fetch(`https://api.vercel.com/v11/now/deployments/get?url=${deploymentUrl.replace('https://', '')}`, {
+      const { id, ownerId } = await fetch(`https://api.vercel.com/v11/now/deployments/get?url=${deploymentUrl.replace('https://', '')}`, {
         headers: {
           Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
         },
@@ -114,7 +106,9 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
       const aliasesSucceeded = aliasesResponse.filter((response: VercelAliasResponse) => !response.error);
 
       if (aliasesErrors.length > 0) {
-        const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse.filter((response: VercelAliasResponse) => response.error).map((response) => response.error);
+        const failedAliases: (VercelAliasResponseError | undefined)[] = aliasesResponse
+          .filter((response: VercelAliasResponse) => response.error)
+          .map((response) => response.error);
         const message = `Got following errors: ${JSON.stringify(failedAliases)}`;
 
         failIfAliasNotLinked ? core.setFailed(message) : core.warning(message);
@@ -146,12 +140,13 @@ const createAliases = async (deploymentUrl: string, customDeploymentFile: string
 
       core.setOutput('VERCEL_ALIASES_FAILED_FULL', aliasesErrors);
       core.exportVariable('VERCEL_ALIASES_FAILED_FULL', aliasesErrors);
-
     } else {
       core.warning(`No "alias" key found in ${vercelConfigFile}`);
     }
   } else {
-    core.setFailed(`You asked to link aliases but we cannot access to vercel config file "${vercelConfigFile}". Deployment succeeded but no aliases has been created.`);
+    core.setFailed(
+      `You asked to link aliases, but we cannot access to vercel config file "${vercelConfigFile}". Deployment succeeded but no aliases has been created.`,
+    );
   }
 };
 
@@ -172,10 +167,10 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
    *          "/https?\/\/:" start matching when we find http:// or https://
    *          "[^ ]+.vercel.app" will catch everything as a vercel subdomain, so "*.vercel.app"
    *          "/g" allows us to have many matchess
-   *          "i" make the regex case insensitive. It will match for "https://subDomainApp.vercel.app" and "https://subdomainapp.vercel.app"
+   *          "i" make the regex case-insensitive. It will match for "https://subDomainApp.vercel.app" and "https://subdomainapp.vercel.app"
    *          "shift" returns the first occurence
    */
-    // TODO should be a function, should be tested using unit tests
+  // TODO should be a function, should be tested using unit tests
   const deploymentUrl: string | undefined = stdout.match(/https?:\/\/[^ ]+.vercel.app/gi)?.shift();
 
   /**
@@ -191,7 +186,12 @@ const deploy = async (command: string, applyDomainAliases: boolean, failIfAliasN
    *          "split" isolates the json file
    *          "find" automatically finds the matching json file
    */
-  const customDeploymentFile: string = stdout.match(/--local-config=.[^$]+?.json/gs)?.shift()?.split('=').find((el) => el.endsWith('.json')) || VERCEL_CONFIG_FILE;
+  const customDeploymentFile: string =
+    stdout
+      .match(/--local-config=.[^$]+?.json/gs)
+      ?.shift()
+      ?.split('=')
+      .find((el) => el.endsWith('.json')) || VERCEL_CONFIG_FILE;
 
   core.debug(`Command: ${command}`);
   core.debug(`Custom deploy file: ${customDeploymentFile}`);
