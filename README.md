@@ -20,9 +20,9 @@ on:
 
 jobs:
   run-example-deployment:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: UnlyEd/github-action-deploy-on-vercel@latest
         with:
           command: "vercel examples/static-deployment --confirm --debug --token ${{ secrets.VERCEL_TOKEN }}"
@@ -105,9 +105,9 @@ on:
 
 jobs:
   run-example-deployment:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Extracts GitHub metadata (branch name, etc.)
       - name: Expose GitHub slug/short variables # See https://github.com/rlespinasse/github-slug-action#exposed-github-environment-variables

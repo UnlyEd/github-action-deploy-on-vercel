@@ -7,13 +7,13 @@ on:
 
 jobs:
   run-example-deployment:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Extracts GitHub metadata (branch name, etc.)
       - name: Expose GitHub slug/short variables # See https://github.com/rlespinasse/github-slug-action#exposed-github-environment-variables
-        uses: rlespinasse/github-slug-action@v3.x # See https://github.com/rlespinasse/github-slug-action
+        uses: rlespinasse/github-slug-action@v4.4.0 # See https://github.com/rlespinasse/github-slug-action
 
       - uses: ./
         with:
