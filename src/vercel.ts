@@ -60,8 +60,8 @@ export const execCommand = async (command: string): Promise<ExecCommandOutput> =
 const createAliases = async (deploymentUrl: string, customDeploymentFile: string, failIfAliasNotLinked: boolean, extraAliases: string[]): Promise<void> => {
   core.debug(`Starting to link aliases`);
 
-  // Globber is a github action tool https://github.com/actions/toolkit/tree/master/packages/glob
-  // It helps us to find the absolute path for a file. Indeed, because we don't know where the action will be run and we need to find this file, wherever it is.
+  // Globber is a GitHub action tool https://github.com/actions/toolkit/tree/master/packages/glob
+  // It helps us find the absolute path for a file. Indeed, because we don't know where the action will be run, and we need to find this file, wherever it is.
   const globber: Globber = await glob.create(customDeploymentFile);
   const vercelConfigFile: string = (await globber.glob())[0];
 
