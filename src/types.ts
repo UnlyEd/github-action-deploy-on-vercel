@@ -5,11 +5,11 @@ export type VercelConfig = {
   env?: GenericObject;
   build?: {
     env: GenericObject;
-  },
+  };
   alias: string[];
   regions?: string[];
   public?: boolean;
-}
+};
 
 /**
  * Vercel Alias API error in the response.
@@ -21,7 +21,7 @@ export type VercelAliasResponseError = {
   code: string;
   message: string;
   uid: string;
-}
+};
 
 /**
  * Vercel Alias API response.
@@ -29,12 +29,12 @@ export type VercelAliasResponseError = {
  * @see https://vercel.com/docs/api#endpoints/aliases/assign-an-alias-to-a-deployment/response-parameters
  */
 export type VercelAliasResponse = {
-  error?: VercelAliasResponseError,
+  error?: VercelAliasResponseError;
   uid?: string;
   alias?: string;
   created?: string;
   oldDeploymentId?: string;
-}
+};
 
 /**
  * Helper to avoid writing `Record<string, unknown>` everywhere you would usually use "object".
@@ -49,4 +49,4 @@ export type GenericObject<T = unknown> = Record<string, T>;
 export type ExecCommandOutput = {
   stdout: string;
   stderr: string;
-}
+};
