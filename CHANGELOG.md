@@ -1,6 +1,13 @@
 CHANGELOG
 ===
 
-Please visit [our releases page](../../releases).
+## Migrating (breaking changes)
 
-Each release is automatic, using the workflow [`.github/workflows/auto-git-release.yml`](/blob/main/.github/workflows/auto-git-release.yml).
+### v1.2.3
+
+No breaking changes.
+Upgraded node from v12 to v16.
+
+---
+
+Please visit [our releases page](../../releases) for details.
