@@ -13,7 +13,7 @@ jobs:
 
       # Extracts GitHub metadata (branch name, etc.)
       - name: Expose GitHub slug/short variables # See https://github.com/rlespinasse/github-slug-action#exposed-github-environment-variables
-        uses: rlespinasse/github-slug-action@v4.4.0 # See https://github.com/rlespinasse/github-slug-action
+        uses: rlespinasse/github-slug-action@v4.4.1 # See https://github.com/rlespinasse/github-slug-action
 
       - uses: ./
         with:
